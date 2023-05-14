@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
     reset_session
     @genres = Genre.all
     @levels = Level.all
-    @question = Question.where(level_id: 1).order("RAND()").first
+    @question = Question.where(level_id: 1).order("RANDOM()").first
     @answer = Answer.find(@question.id)
     @question_count_array = Question.calcQuestionsCounts
   end
@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
       session[:question_nums] << @question_nums
 
       # genre_idsに入っている分野idと一致するインスタンスを1つ取得する
-      @question = Question.where(genre_id: genre_ids,level_id: level_ids).order("RAND()").first
+      @question = Question.where(genre_id: genre_ids,level_id: level_ids).order("RANDOM()").first
 
       if @question.present?
         # session[:asked_question_ids]に取得したインスタンスの問題idを格納する。
@@ -34,7 +34,7 @@ class QuestionsController < ApplicationController
         end
 
         #取得した問題インスタンスに付随する選択肢を取得する。
-        @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+        @choices = @question.choices.includes(:question).order("RANDOM()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
         @answer = Answer.find(@question.id)
     
       else
@@ -68,7 +68,7 @@ class QuestionsController < ApplicationController
         # session[:asked_question_ids]に取得したインスタンスの問題idを追加格納する。
       if @question.present?
           session[:asked_question_ids] << @question.id
-          @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+          @choices = @question.choices.includes(:question).order("RANDOM()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
           @answer = Answer.find(@question.id)
 
           if session[:question_nums].present?
@@ -107,11 +107,11 @@ class QuestionsController < ApplicationController
       @question_nums = incorrect_question_ids.length
       session[:question_nums] << @question_nums
       # 不正解問題のidでレコードを取得する
-      @question = Question.where(id: incorrect_question_ids).order("RAND()").first
+      @question = Question.where(id: incorrect_question_ids).order("RANDOM()").first
       if @question.present?
           # 不正解問題のidを出題済みセッションに格納する
           session[:asked_question_ids] << @question.id
-          @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+          @choices = @question.choices.includes(:question).order("RANDOM()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
           @answer = Answer.find(@question.id)
           render :ask
       else

@@ -6,10 +6,10 @@ class Question < ApplicationRecord
 
   def self.selectQuestion(session)
     if session[:question_range] .present?
-      question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RAND()").first
+      question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
     else
       #当メソッドを呼び出す際には最低1回はask~resultメソッドを実行している。そのため、セッションを参考にして分野を指定しながら出題済みの問題を避けて次の問題（インスタンス）を取得できる。
-      question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RAND()").first
+      question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
     end
     return question
   end
@@ -25,7 +25,7 @@ class Question < ApplicationRecord
   def self.selectQuestionByOrder(question_order, genre_ids, level_ids, question_count)
     # 出題形式が「ランダム」の場合
     if question_order == 1
-      questions = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").limit(question_count)
+      questions = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").limit(question_count)
     # 出題形式が「番号順」の場合
     elsif question_order == 2
       questions = Question.where(genre_id: genre_ids, level_id: level_ids).order(id: "ASC").limit(question_count)
