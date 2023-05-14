@@ -1,0 +1,73 @@
+<div class="contents row">
+  <div class="question_id">
+    <%= "問題 #{@question.id}"%>
+  </div>
+  <div class="sentense">
+  <p>次の問題文の答えとして最も適している語句を選びなさい。</p>
+  </div>
+  <div class="question_text">
+    <%= @question.text%>
+  </div>
+  <div class="choices">
+      <h4>＜解答一覧＞</h4>
+      <p>ア.  <%= @choices[0].choice%></p>
+      <p>イ.  <%= @choices[1].choice%></p>
+      <p>ウ.  <%= @choices[2].choice%></p>
+      <p>エ.  <%= @choices[3].choice%></p>
+    
+    <div class="button-list" style="display:flex;">
+    <%= button_to "ア", "/questions/#{@question.id}/answers", {method: :get, params: {choice_id: @choices[0].id}, class: "buttons" }%>
+    <%= button_to "イ", "/questions/#{@question.id}/answers", {method: :get, params: {choice_id: @choices[1].id}, class: "buttons" }%>
+    <%= button_to "ウ", "/questions/#{@question.id}/answers", {method: :get, params: {choice_id: @choices[2].id}, class: "buttons" }%>
+    <%= button_to "エ", "/questions/#{@question.id}/answers", {method: :get, params: {choice_id: @choices[3].id}, class: "buttons" }%>
+    </div>
+
+    <%# /questions/#{@question.id}/answers" %>
+    <p>------</p>
+    <%# 以下は非同期通信のためにやろうとしたけど失敗したものたち %>
+    <%# <%= form_with model: @question, url: "#", local: true, class: 'form' do |form| %>
+
+    <%# <%= form.text_field :time, class: 'form-control', readonly:true, id:"time_input",value:@question.id %> 
+
+    <%# <%end%> 
+    
+    <%# <%= button_tag "ア",  { params: { choice_id: @choices[0].id}, class: "buttons" }%> 
+    <%# <%= button_tag "イ",  { params: { choice_id: @choices[1].id}, class: "buttons" }%>  
+
+    
+
+      <%# 後ほど消す%>
+      <%# ーーーー%>
+      <%# <% @choices.each do |choice| %>
+        <%# <p> %> 
+          <%# <%= choice.choice %> <%# 2個目のchoiceはカラム名 %>
+        <%# </p> %>
+      <%# <% end %> 
+      <%# ーーーー%>
+  </div>
+  <%# 以下は採用しないためコメントアウト2022/12/17 %>
+  <%# <%= form_with(model: @choice, url: "/questions/#{@question.id}/answers", method: :get, local: true) do |form| %>
+    <%# <div class="form_item" style="display: block;"> %>
+      <%# <% form.label :choice_id, class: 'form_item_label' %>
+      <%# <div class="radio-buttons" style="display:block;"> %>
+        <%# <% @choices.each do |choice| %>
+          <%# <label style="display:block;"><%= form.radio_button(:choice_id, choice.id)<%= choice.choice </label>
+        <%# <% end %> 
+      <%# </div> %>
+        <%# <%= form.submit "解答する" %>
+    <%# </div> %>
+  <%# <% end %>
+  <p>------</p>
+    <%# 以下は採用しないためコメントアウト2022/12/17 %>
+
+    <%# 以下で選択肢の数だけリンク機能がついたボタンをつくる。ボタンに表示するのは選択肢の名称 %>
+    <%# <% @choices.each do |choice| %> 
+      <%# <%= button_to "#{choice.choice}", "/questions/#{@question.id}/answers", {method: :get,params: {choice_id: choice.id} }%> 
+    <%# <% end %>
+  <p>------</p>
+  <p><%= link_to '問題一覧へ戻る', questions_path, method: :get %>
+  <%# 後ほど消すーーーー%>
+  <%# <p><%= link_to '解答へ', question_answers_path(@question), method: :get %>
+  <%# ーーーー%>
+
+</div>

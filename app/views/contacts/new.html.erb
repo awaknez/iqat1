@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>お問い合わせありがとうございます</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <style>
+    .scroll-box {
+      height: 200px;
+      overflow: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+        <%# 左カラム %>
+          <div class="col-sm-8 bg-light my-3">
+            <p class="h2 my-3 text-center">お問い合わせ</p>
+            <div class="card borded">
+              <div class="card-body">
+                <p class="card-text small">お問い合わせありがとうございます。お答えするまでに少々時間がかかることがありますが、何卒ご了承ください。またお問い合わせ内容には全て目を通しており不具合等は適宜修正しておりますが、返信先メールアドレスを記載していただいた場合でも、返信を保証するわけではございませんのでご了承ください。</p>
+              </div>
+            </div>
+            <div class="card borded my-3">
+              <div class="card-body">
+                <%= form_with url: "/contact", method: "post" do |form| %>
+                  <div class="">
+                    <p><%= form.label :name, "◆氏名" %><span class="small text-danger">（必須）</span></p>
+                    <p><%= form.text_field :name, class: "form-control bg-light",  required: true, placeholder: "毛利小五郎" %></p>
+                  </div>
+                
+                  <div>
+                    <p><%= form.label :email, "◆メールアドレス" %><span class="small text-danger">（必須）</span></p>
+                    <p><%= form.email_field :email, class: "form-control bg-light", required: true ,placeholder: "abcdef@gmail.com"%></p>
+                  </div>
+                
+                  <div>
+                    <p><%= form.label :subject, "◆題名" %><span class="small text-danger">（必須）</span></p>
+                    <p><%= form.text_field :subject, class: "form-control bg-light",  required: true, placeholder: "問題の誤植を発見" %></p>
+                  </div>
+                
+                  <div>
+                    <p><%= form.label :message, "◆メッセージ本文" %><span class="small text-danger">（必須）</span></p>
+                    <p><%= form.text_area :message, class: "form-control bg-light", required: true, placeholder: "お問合せ内容をご入力ください。" %></p>
+                  </div>                
+                  <div class="privacy-policy-modal mb-3">
+                    <p>【個人情報に関する規約】</p>
+                    <!-- 個人情報に関する規約の内容をスクロールできる小ウインドウとして記述 -->
+                    <div class="scroll-box">
+                      <p>1.当社は、お問い合わせなどの際に氏名・メールアドレス等の個人情報を入力いただく場合があります。当社は、利用者の個人情報を取得する際には、利用目的を明示し、その範囲内でのみ利用します。</p>
+                      <p>2.取得した個人情報は適切に管理し、以下に該当する場合を除いて第三者に開示することはありません。
+                        <ul style="list-style: circle;">
+                          <li>
+                            本人の同意が得られた場合
+                          </li>
+                          <li>
+                            法令により開示が求められた場合
+                          </li>
+                        </ul>
+                      </p>
+                      <p>3.当社は、個人情報の紛失、破壊、改ざん、漏えい等を防止するため、適切な管理を行います。</p>
+                      <p>4.利用者は、当社に対して、自己の個人情報の開示・訂正・利用停止を求めることができます。</p>
+                      <p>5.本プライバシーポリシーは、当社が任意に変更することができるものとします。変更されたプライバシーポリシーは、本サービス内に表示されるものを最新のものとします。</p>
+                      <div class="reevisionHistory">
+                        <p>【2023年5月6日制定】</p>
+                      </div>
+                    </div>
+                  </div>
+                  <%= form.check_box :agree_to_privacy_policy , required: true %>
+                  <%= form.label :agree_to_privacy_policy, "個人情報に関する規約に同意する" %>
+                  <div class="mt-5 text-center">
+                    <%= form.submit "送信" %>
+                  </div>
+                    <% unless @contact.errors[:agree_to_privacy_policy].empty? %>
+                      <div class="alert alert-danger">
+                        <%= @contact.errors[:agree_to_privacy_policy].first %>
+                      </div>
+                    <% end %>
+                <% end %>
+                <p  class="text-center mt-4">------</p>
+                <p class="text-center"><%= link_to '問題選択へ戻る', root_path, method: :get %>
+              </div>
+            </div>
+          </div>

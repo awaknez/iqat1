@@ -1,0 +1,35 @@
+<div class="contents row">
+  <div class="question_id">
+    <%= "問題 #{@question.id}"%>
+    <p>解答</p>
+  </div>
+
+  <div class="question_text">
+    <%= @question.text%>
+  </div>
+  <div class="answer">
+    <%= @answer.answer%> <%# 2個目のanswerはカラム名%>
+  </div>
+
+  <% if @chosen_choice.is_answer == true %>
+  <div class="correct">
+    <p>◯</p>
+  </div>
+  <% elsif  @chosen_choice.is_answer == false %>
+  <div class="correct">
+    <p>✖️</p>
+  </div>
+  <% end %>
+  <div class="choices">
+      <h4>＜選択肢一覧＞</h4>
+      <% @choices.each do |choice| %>
+        <p>
+          <%= choice.choice %> <%# 2個目のchoiceはカラム名%>
+        </p>
+      <% end %>
+  </div>
+
+</div>
+<%= button_to "次の問題", "/questions/next_question", {method: :post, class: "buttons" }%>
+
+<p><%= link_to '問題選択へ戻る', root_path, method: :get %>

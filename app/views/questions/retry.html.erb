@@ -1,0 +1,77 @@
+<%# 2023/04/17作成 %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-warning"><%= flash[:alert] %></div>
+<% end %>
+<div class="h3 text-primary">間違えた問題に再挑戦</div>
+<div class="contents row">
+  <div class="question_id">
+    <%= "問題 #{@incorrect_question.id}"%>
+  </div>
+  <div class="sentense">
+  <p>次の問題文の答えとして最も適している語句を選びなさい。</p>
+  </div>
+  <div class="question_text">
+    <%= @incorrect_question.text%>
+  </div>
+  <%# 画像がある場合は表示する %>
+  <div class="question_image">
+    <% if @incorrect_question.image != nil %>
+      <%= @incorrect_question.image %>
+    <% end %>
+  </div>
+  <%# 選択肢を表示 %>
+  <div class="choices">
+      <h4>＜解答一覧＞</h4>
+      <p>ア.  <%= @choices[0].choice%></p>
+      <p>イ.  <%= @choices[1].choice%></p>
+      <p>ウ.  <%= @choices[2].choice%></p>
+      <p>エ.  <%= @choices[3].choice%></p>
+    
+    <div class="button-list" style="display:flex;" id="button-list">
+    <%= button_to "ア", "/questions/result", {method: :post, params: {choice_id: @choices[0].id, question_id: @incorrect_question.id}, class: "buttons",data: { "choice-id" => @choices[0].id, "choice-name" =>"ア", "question-id" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
+    <%= button_to "イ", "/questions/result", {method: :post, params: {choice_id: @choices[1].id, question_id: @incorrect_question.id}, class: "buttons",data: { "choice-id" => @choices[1].id, "choice-name" =>"イ", "question-id" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
+    <%= button_to "ウ", "/questions/result", {method: :post, params: {choice_id: @choices[2].id, question_id: @incorrect_question.id}, class: "buttons",data: { "choice-id" => @choices[2].id, "choice-name" =>"ウ", "question-id" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
+    <%= button_to "エ", "/questions/result", {method: :post, params: {choice_id: @choices[3].id, question_id: @incorrect_question.id}, class: "buttons",data: { "choice-id" => @choices[3].id, "choice-name" =>"エ", "question-id" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
+    </div>
+
+  <p>------</p>
+  <p>「解答を見る」「次の問題へ」を選んだ場合、「間違えた問題に再挑戦」で出題されません。</p>
+  
+  <%= button_to "解答を見る", "/questions/result", {method: :post, params: {choice_id: 0, question_id: @incorrect_question.id}, id: "seeAnsButton", class: "buttons",data: { "choice-id" => 0,"choice-name" =>"-" , "question-id'" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
+
+  <%# 正誤判定結果 %>
+  <div id="result"></div>
+  <%# ユーザーの解答を表示 %>
+  <div id="chosenName"></div>
+
+  <div class="contents row " id="commentaryArea" style="display: none;">
+    <div class="question_id">
+      <%= "問題 #{@incorrect_question.id}"%>
+      <p>解答</p>
+    </div>
+
+    <div class="question_text">
+      <%= @incorrect_question.text%>
+    </div>
+    <div class="answer">
+      <%= @answer.answer%> <%# 2個目のanswerはカラム名%>
+    </div>
+
+    <div class="choices">
+        <h4>＜選択肢一覧＞</h4>
+        <% @choices.each do |choice| %>
+          <p>
+            <%= choice.choice %> <%# 2個目のchoiceはカラム名%>
+          </p>
+        <% end %>
+    </div>
+</div>
+
+  
+  <%= button_to "次の問題へ", "/questions/retry_next_question", {method: :post, class: "retryNextQuestion" }%>
+
+  <p>------</p>
+  <p><%= link_to 'トップページへ', root_path, method: :get %>
+
+</div>

@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+
+  </style>
+</head>
+        <%# 左カラム %>
+        <div class="col-sm-8 bg-light">
+          <div class="attention mb-4 text-center">
+            <p class="card-text">お疲れ様でした。出題が終わりました</p>
+          </div>
+          <div class="card rounded mb-4 text-center py-3">
+            <p class="card-text">今回の成績は…</p>
+            <div>
+              <%# @question_nums は配列形式で格納されており、eachメソッドを使わないと[]が表示されてしまう %>              
+              <span>全<%= @question_nums%>問中、</span>
+              <span class="h5 text-success">
+                <% if @correct_counts.nil?%>
+                  <% @correct_counts = 0%>
+                <% end %>
+                  <%= @correct_counts%>問正解</span><span>です。
+              </span>              
+            </div>
+          </div>
+
+          <div class="text-center">
+            <p>------</p>
+            <p class="h6">▼間違えた問題を復習しましょう▼</p>
+
+            <%# <%= button_to "間違えた問題に再挑戦", "/questions/ask", {method: :post, class: "retryIncorrectQuestion" }%>
+            <%= form_with url: retry_questions_path, method: :post, local: true, class: 'form' do |form| %>
+                <%= form.submit value: '間違えた問題に再挑戦', class: 'btn mx-auto d-block common-btn btn-primary btn-lg mt-4',data:{"turbolinks"=>false} %>
+            <% end %>
+
+            <p class="text-danger small mt-3">間違えた問題がない場合は、トップページへ移ります。</p>
+
+            <p>------</p>
+            <p><%= link_to 'トップページへ', root_path, method: :get %>
+          </div>
+        </div>
+

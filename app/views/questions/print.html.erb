@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+  /* プリントする時の要素の設定 */
+  @media print {
+    /* 改ページを挿入する宣言 */
+    .page-break1 { display: block; page-break-before: always; }
+    .page-break2 { display: block; page-break-before: always; }
+
+    /* プリントする時の要素の表示・非表示の設定 */
+      header { display: none; }
+      .printButton { display: none; }
+      .retryButton { display: none; }
+      .toRootButton{ display: none; }
+      .rightSide{ display: none; }
+      .footer{ display: none; }
+      .dateZone{ font-size: 8px;}
+      .nameZone{ font-size: 8px;}
+      .printTitle{ font-size: 8px;}
+      .scoreZone{ font-size: 8px;}
+      .AnswerArea{ font-size: 8px;}
+      .questionTable{ font-size: 8px; }
+  }
+
+  /* 選択肢列の幅を調整するためのCSS */
+  /* .choiceSelecter {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 9x;
+  } */
+
+  .no-border{
+      border: none;
+  }
+  </style>
+</head>
+
+  <div class="col-sm-8 bg-white">
+    <%# 印刷ボタンなど %>
+    <div class="buttonArea col-sm-8 d-flex my-3">
+      <button  class="col-4 printButton" onclick="window.print()">印刷する</button>
+      <%= button_to "問題を作成し直す", root_path, {method: :get, "csrf-token" => form_authenticity_token, class:"mx-3 toRootButton" }%>
+    </div>
+    <p class="printTitle">情報I 一問一答トレーニング</p>
+    <div class="d-flex justify-content-end">
+      <p class="dateZone" style="text-decoration: underline;">実施日時：　　　/　　　　/　　　　</p>
+      <p class="nameZone" style="text-decoration: underline;">氏名：　　　　　　　　　　</p>
+      <p class="scoreZone" style="text-decoration: underline;">得点:　　　　　　点</p>
+    </div>
+    <% if @style_id == 1%>
+      <%# 選択式解答形式フォーマット %>
+      <table class="questionTable col-sm-8 table table-bordered">
+        <tr class="bg-secondary text-white text-center">
+          <td>番号</td>
+          <td>問題</td>
+          <%# colspan="4" でセル4つを結合%>
+          <td colspan="4">選択肢</td>
+        </tr>
+
+          <% @questions.each_with_index do |question, index|%>
+              <tr class="border mx-3">
+                <td class="col-1 text-center"><span><%= index + 1 %></td></span>
+                <td class="col-5 small"><%= question.text %></td>
+                <% choices = []%>
+                <% choices = Choice.where(question_id: question.id)%> 
+                  <div class="col-6 ">
+                    <td class="mx-1 small">
+                      <%# ア、イなどをつける場合には右のようにする ア.  <%= choices[0].choice %> 
+
+                      <p>① <%= choices[0].choice%></p>
+                    </td>
+                    <td class="mx-1 small">
+                      <p>② <%= choices[1].choice%></p>
+                    </td>
+                    <td class="mx-1  small">
+                      <p>③ <%= choices[2].choice%></p>
+                    </td>
+                    <td class="mx-1  small">
+                      <p>④ <%= choices[3].choice%></p>
+                    </td>
+                  </div>
+              </tr>
+
+              <%# 10問ごとに改ページ %>
+              <% if index > 0 && index % 10 == 9%>
+                <%# <div class="page-break"></div> %>
+                <tr class="page-break1 no-border">
+                  <td class="no-border">&nbsp;</td>
+                </tr>
+              <% end %>
+          <% end %>
+      </table>
+      
+      <%# 選択式解答形式フォーマットここまで %>
+    <% elsif @style_id == 2%>
+
+      <%# 記述式解答形式フォーマット %>
+      <div class="d-flex flex-wrap">
+      <%# 問題番号調整用変数%>
+        <% start_index = 0%>
+        <% @questions.each_slice(10).with_index do |slice, i| %>
+          <table class="questionTable table table-bordered">
+            <tr class="bg-secondary text-white text-center">
+              <td>番号</td>
+              <td>問題</td>
+              <td>解答</td>
+            </tr>
+            <% slice.each_with_index do |question, index|%>
+              <tr class="border mx-3">
+                <% if start_index > 9%>
+                  <td class="col-1 text-center"><%= start_index + index + 1 %></td>
+                <% else %>
+                  <td class="col-1 text-center"><%= index + 1 %></td>
+                <% end %>
+                <td class="col-5 small"><%= question.text %></td>
+                <td class="col-4 small"></td>
+              </tr>
+              <% if index > 0 && index % 10 == 9 %>
+                <%# </table> %>
+                <% start_index += 10%>
+                <tr class="page-break1 no-border">
+                  <td class="no-border">&nbsp;</td>
+                </tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+      <%# 記述式解答形式フォーマットここまで %>
+
+    <% elsif @style_id == 3%>
+      <div class="flex-wrap">
+
+      <%# 選択式解答形式フォーマット %>
+      <table class="questionTable col-sm-8 table table-bordered">
+        <tr class="bg-secondary text-white text-center">
+          <td>番号</td>
+          <td>問題</td>
+          <%# colspan="4" でセル4つを結合%>
+          <td colspan="4">選択肢</td>
+        </tr>
+
+          <% @questions.each_with_index do |question, index|%>
+              <tr class="border mx-3">
+                <td class="col-1 text-center"><span><%= index + 1 %></td></span>
+                <td class="col-5 small"><%= question.text %></td>
+                <% choices = []%>
+                <% choices = Choice.where(question_id: question.id)%> 
+                  <div class="col-6 ">
+                    <td class="mx-1 small">
+                      <%# ア、イなどをつける場合には右のようにする ア.  <%= choices[0].choice %> 
+
+                      <p>① <%= choices[0].choice%></p>
+                    </td>
+                    <td class="mx-1 small">
+                      <p>② <%= choices[1].choice%></p>
+                    </td>
+                    <td class="mx-1  small">
+                      <p>③ <%= choices[2].choice%></p>
+                    </td>
+                    <td class="mx-1  small">
+                      <p>④ <%= choices[3].choice%></p>
+                    </td>
+                  </div>
+              </tr>
+
+              <%# 10問ごとに改ページ %>
+              <% if index > 0 && index % 10 == 9%>
+                <%# <div class="page-break"></div> %>
+                <tr class="page-break1 no-border">
+                  <td class="no-border">&nbsp;</td>
+                </tr>
+              <% end %>
+          <% end %>
+      </table>
+      </div>
+
+      <%# 選択式解答形式フォーマットここまで %>
+      <%# 記述式解答形式フォーマット %>
+      <div class="flex-wrap">
+      <%# 問題番号調整用変数%>
+        <% start_index = 0%>
+        <% @questions.each_slice(10).with_index do |slice, i| %>
+          <table class="questionTable table table-bordered">
+            <tr class="bg-secondary text-white text-center">
+              <td>番号</td>
+              <td>問題</td>
+              <td>解答</td>
+            </tr>
+            <% slice.each_with_index do |question, index|%>
+              <tr class="border mx-3">
+                <% if start_index > 9%>
+                  <td class="col-1 text-center"><%= start_index + index + 1 %></td>
+                <% else %>
+                  <td class="col-1 text-center"><%= index + 1 %></td>
+                <% end %>
+                <td class="col-5 small"><%= question.text %></td>
+                <td class="col-4 small"></td>
+              </tr>
+              <% if index > 0 && index % 10 == 9 %>
+                <%# </table> %>
+                <% start_index += 10%>
+                <tr class="page-break1 no-border">
+                  <td class="no-border">&nbsp;</td>
+                </tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% end %>
+      </div>
+      <%# 記述式解答形式フォーマットここまで %>
+    <% end %>
+
+    <%# 改ページ位置 %>
+    <%# <div class="page-break2"></div> %>
+
+
+    <%# 解答 %>
+    <div class="d-flex justify-content-center">
+      <p class="AnswerArea" >解答</p>
+    </div>
+    <table class=" questionTable col-sm-8 table table-bordered">
+          <thead class="bg-secondary text-white text-center">
+            <th >番号</th>
+            <th >問題</th>
+            <th >解答</th>
+          </thead>
+
+        <% @questions.each_with_index do |question, index|%>
+            <tr class="border mx-3">
+              <td class="col-1 text-center"><%= index + 1 %></td>
+              <td class="col-7 small"><%= question.text %></td>
+              <%# Answer.where(question_id: question.id)で取得する複数インスタンスを格納する配列を用意する（条件に合うのは1つのインスタンスであるが） %>
+              <% answers = []%>
+              <% answers = Answer.where(question_id: question.id)%> 
+                <td class="col-4 small">
+                  <p><%= answers[0].answer %></p>
+                </td>
+            </tr>
+        <% end %>
+    </table>
+  </div>

@@ -1,0 +1,151 @@
+
+<%# 2023/04/17作成 %>
+
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <style>
+    .btn:hover {
+      background-color: #000000; /* 背景色を白に */
+      color: #ffffff; /* テキスト色を黒に */
+      border-color: #000000; /* ボーダー色を黒に */
+    }
+
+  .text-primary:hover {
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+  }
+
+  .commentArea{
+    background: rgb(230, 246, 250);  
+  }
+
+  .attention{
+    background-color: #fceded;
+  }
+
+  </style>
+</head>
+
+          <%# 左カラム %>
+          <div class="col-sm-8 bg-light">
+            <% if @asked_question_count.blank?%>
+              <div class="correct-rate question-nums"><span>最初の問題／選択範囲の問題数<%= @question_nums%>問</span></div>
+            <% else%>
+              <div class="card borded">
+                <div class="card-body">
+                  <div class="correct-rate card-text">正解数:<%= @correct_counts%>問／出題数:<%= @asked_question_count %>問【正答率<%= @correct_rate%>%】</div>
+                    <%# @question_nums は配列形式で格納されており、eachメソッドを使わないと[]が表示されてしまう %>
+                    <% @question_nums.each do |num| %>
+                          ／選択範囲の問題数<%= num%>問
+                    <% end %>
+                  </div>
+                </div>
+            <% end%>
+            <div class="contents">
+                <div class="sentense">
+                </div>
+                <div class="card rounded my-3">
+                  <div class="card-body">
+                    <p>次の問題文の答えとして最も適している語句を選びなさい。</p>
+                    <div class="question_id bg-info text-white">
+                      <%= "問題 #{@question.id}"%>
+                    </div>
+                    <div class="question_text card-body">
+                      <p class="card-text"><%= @question.text%></p>
+                      <%# 画像がある場合は表示する %>
+                      <% if !@question.image.nil? %>
+                        <div class="question_image card-body"  style="background-image: url(<%= @question.image %>);">
+                          <p class="card-text">
+                          <%# <%= @question.image %></p>
+                          
+                        </div>
+                      <% else %> 
+                        <div class="d-none"></div>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <%# 選択肢を表示 %>
+                  <div class="choices card-body mt-3">
+                      <div>
+                        <p class=" bg-info text-white">選択肢一覧</p>
+                      </div>
+                      <p><button type="button" style="border: 0.5 solid;">ア</button> <%= @choices[0].choice%></p>
+                      <p><button type="button" style="border: 0.5 solid;">イ</button> <%= @choices[1].choice%></p>
+                      <p><button type="button" style="border: 0.5 solid;">ウ</button> <%= @choices[2].choice%></p>
+                      <p><button type="button" style="border: 0.5 solid;">エ</button> <%= @choices[3].choice%></p>
+                    <div class="text-center">
+                      <p>▼解答を選んでください▼</p>
+                    </div>
+                    <div class="button-list my-3 px-5" style="display:flex; justify-content:space-between;" id="button-list">
+                      <%= button_to "  ア  ", "/questions/result", {method: :post, params: {choice_id: @choices[0].id, question_id: @question.id}, class: "btn btn-outline-secondary buttons",data: { "choice-id" => @choices[0].id, "choice-name" =>"ア", "question-id" => @question.id},"csrf-token" => form_authenticity_token  }%>
+                      <%= button_to "  イ  ", "/questions/result", {method: :post, params: {choice_id: @choices[1].id, question_id: @question.id}, class: "btn btn-outline-secondary buttons",data: { "choice-id" => @choices[1].id, "choice-name" =>"イ", "question-id" => @question.id},"csrf-token" => form_authenticity_token  }%>
+                      <%= button_to "  ウ  ", "/questions/result", {method: :post, params: {choice_id: @choices[2].id, question_id: @question.id}, class: "btn btn-outline-secondary buttons",data: { "choice-id" => @choices[2].id, "choice-name" =>"ウ", "question-id" => @question.id},"csrf-token" => form_authenticity_token  }%>
+                      <%= button_to "  エ  ", "/questions/result", {method: :post, params: {choice_id: @choices[3].id, question_id: @question.id}, class: "btn btn-outline-secondary buttons",data: { "choice-id" => @choices[3].id, "choice-name" =>"エ", "question-id" => @question.id},"csrf-token" => form_authenticity_token  }%>
+                    </div>
+                    <div class="text-center">
+                      <%# <p>------</p> %>
+                      <div class="card rounded attention mb-4">
+                        <p class="small card-text">「解答を見る」「次の問題」を選んだ場合、<br>「間違えた問題に再挑戦」で出題されません。</p>
+                      </div>
+                      <%= button_to "解答を見る", "/questions/result", {method: :post, params: {choice_id: 0, question_id: @question.id}, id: "seeAnsButton", class: "btn btn-outline-secondary buttons mb-3",data: { "choice-id" => 0,"choice-name" =>"-" , "question-id'" => @question.id},"csrf-token" => form_authenticity_token  }%>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p><img src="../img/img_qandAtraining230504.png" alt="logo" class="img-fluid"></P>
+                </div>
+                <div class="card rounded mt-3 px-3 pb-3">
+                  <div class="card-body" id="resultArea">
+                    <%# 正誤判定結果 %>
+                    <div id="result" class="h4"></div>
+                    <%# ユーザーの解答を表示 %>
+                    <div class="text-center" id="chosenName"></div>
+                  </div>
+                  <div class="contents" id="commentaryArea" style="display: none;">
+                    <div class="card rounded commentArea px-2">
+                      <div class="question_id card-body mx-2">
+                        <p class="h5 card-text">◆解説</p>
+                      </div>
+                      <div class="card-body">
+                        <div class="question_id bg-primary text-white">
+                          <span class="card-text mx-2"><%= "問題 #{@question.id}"%></span>
+                        </div>
+                        <div class="question_text card-body">
+                          <p class="card-text"><%= @question.text%></p>
+                        </div>
+                        <div class="answer card-body ">
+                          <span class="card-text">正解：</span><span class="h5 text-primary font-weight-bold"><%= @answer.answer%></span> <%# 2個目のanswerはカラム名%>
+                        </div>
+
+                        <div class="choices">
+                            <p class=" bg-primary text-white">選択肢の解説</p>
+                            <ul>
+                              <% @choices.each_with_index do |choice| %>
+                                <li>
+                                  <p class="text-primary"><%= choice.choice %> <%# 2個目のchoiceはカラム名%></P>
+                                  <p class="small"><%= choice.commentary %></p>
+                                </li>
+                              <% end %>
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="text-center mt-5">
+              <%= button_to "次の問題", "/questions/next_question", {method: :post, class: "nextQuestion btn btn-lg btn-secondary" }%>
+              <p class="mt-4">------</p>
+              <p><%= link_to '問題選択へ戻る', root_path, method: :get %>
+            </div>
+            </div>
+          </div>
+          
+
+
