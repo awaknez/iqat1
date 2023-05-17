@@ -9,9 +9,9 @@ class QuestionsController < ApplicationController
     reset_session
     @genres = Genre.all
     @levels = Level.all
-    # @question = Question.where(level_id: 1).order("RANDOM()").first
-    # @answer = Answer.find(@question.id)
-    # @question_count_array = Question.calcQuestionsCounts
+    @question = Question.where(level_id: 1).order("RANDOM()").first
+    @answer = Answer.find(@question.id)
+    @question_count_array = Question.calcQuestionsCounts
   end
 
 
