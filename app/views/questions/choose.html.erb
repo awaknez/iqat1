@@ -15,12 +15,15 @@
   }
 
   .top-img{
-    width:100%;
+    /* width:100%;
     height:15em;
     background-image:url("assets/qandatraining230504.png");
     background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
-    background-position: center;   /* 背景画像の位置を中央に指定 */
-    background-size: contain;  
+    /* background-position: center;   背景画像の位置を中央に指定 */
+    /* background-size: contain;    */
+    width:100%;
+    height:15em;
+    object-fit: contain;
   }
   </style>
 </head>
@@ -34,9 +37,9 @@
               </div>
             </div>
             <div class="">
-              <p class="top-img">
+              <%= image_tag 'qandatraining230504.png', class: 'top-img' %>
                 <%# <img src = "assets/qandatraining230504.png" alt="logo"> %>
-              </p>
+              
             </div>
             <div class="applicationOutline mb-3">
               <div class="whatsApp mb-3 d-flex justify-content-center" id="whatsApp" style="text-align: start;">
