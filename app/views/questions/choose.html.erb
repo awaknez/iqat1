@@ -14,6 +14,14 @@
     text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
   }
 
+  .top-img{
+    width:100%;
+    height:15em;
+    background-image:url("assets/qandatraining230504.png");
+    background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
+    background-position: center;   /* 背景画像の位置を中央に指定 */
+    background-size: contain;  
+  }
   </style>
 </head>
 
@@ -25,8 +33,10 @@
                 <p>情報I 一問一答トレーニング</p>
               </div>
             </div>
-            <div class="card-body">
-              <p><img src="../assets/images/qandatraining230504.png" alt="logo" class="img-fluid"></p>
+            <div class="">
+              <p class="top-img">
+                <%# <img src = "assets/qandatraining230504.png" alt="logo"> %>
+              </p>
             </div>
             <div class="applicationOutline mb-3">
               <div class="whatsApp mb-3 d-flex justify-content-center" id="whatsApp" style="text-align: start;">
@@ -50,7 +60,7 @@
                   <li class="nav-item mr-1 d-inline-block">
                     <a href="#tab1" type="button" class="btn btn-outline-secondary btn-lg border rounded font-weight-normal mx-2" data-toggle="modal" id ="createQuestionButton">問題選択</a>
                   </li>
-                  <li class="nav-item mr-1 d-inline-block  d-lg-inline d-none">
+                  <li class="nav-item mr-1 d-inline-block  d-xl-inline d-none">
                     <a href="#tab2" type="button" class="btn btn-outline-secondary btn-lg border rounded font-weight-normal mx-2" data-toggle="tab" id ="printQuestionButton">問題印刷</a>
                   </li>
               </ul>

@@ -10,8 +10,6 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
   <script>
-
-
   </script>
 
   </head>
@@ -20,7 +18,11 @@
     <header>
       <div class="container-fluid bg-dark text-white px-3"> 
         <p class="h2 text-white">
-            <a class="navbar-brand" href="/"><img src="../img/header-logo.png" alt="logo" class="logo"></a>
+            <a class="navbar-brand" href="/">
+            <%# <img src="assets/logo-training-gym.png" alt="logo" class="logo" style="height ; 10em; width: 25%;"> %>
+            <%= image_tag 'logo-training-gym.png', class: 'logo-img' ,style: ' width: 25%;'%>
+
+            </a>
 
         <%# <p><%= link_to(image_tag('images/qandAtraining230504.png', alt: "情報I 一問一答トレーニング"), "/", method: :get) %>
       </div>
@@ -46,7 +48,13 @@
                   </div>
                   <div class="examInfo mt-5">
                     <p>令和7年度の大学入学共通テストの情報はこちら▼</p>
-                      <a href="https://www.dnc.ac.jp/" target="_blank"><img src="../images/abm00000275.png" alt="大学入試センター"></a>
+                    <p class="">
+                      <a href="https://www.dnc.ac.jp/" target="_blank">
+                      <%# <img src="assets/abm00000275.png" alt="大学入試センター" style="height ; 10em; width: 80%;"> %>
+                      <%= image_tag 'abm00000275.png', class: '' ,style: 'height ; 10em; width: 80%;'%>
+
+                      </a>
+                    </p>
                   </div>
                   <div class="blogInfo1 mt-5">
                     <p>大学入学共通テスト「情報」科対策はこちら▼</p>

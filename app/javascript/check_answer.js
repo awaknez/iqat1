@@ -32,7 +32,7 @@ buttons.forEach(function(button){
 
       // ボタンを押せば結果のエリアまでスクロールする
         // #result要素の位置を取得
-        var resultElement = document.querySelector('#resultArea');
+        var resultElement = document.querySelector('#logoArea');
         var resultPosition = resultElement.getBoundingClientRect().top + window.pageYOffset;
   
         // スクロールする
