@@ -9,28 +9,29 @@
   .imgHowToUse{
     width:100%;
     height:30em;
-    background-image:url("assets/howtouse1.png");
-    background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
-    background-position: center;   /* 背景画像の位置を中央に指定 */
-    background-size: contain;
+    /* background-image:url("assets/howtouse1.png"); */
+    object-fit: contain;
   }
 
   .imgHowToUse_2{
     width:100%;
     height:30em;
-    background-image:url("assets/howtouse2.png");
+    /* background-image:url("assets/howtouse2.png");
     background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
-    background-position: center;   /* 背景画像の位置を中央に指定 */
-    background-size: contain;
+    /* background-position: center;   背景画像の位置を中央に指定 */
+    /* background-size: contain;  */
+    object-fit: contain;
+
   }
 
   .imgHowToUse_3{
     width:100%;
     height:30em;
-    background-image:url("assets/howtouse3.png");
+    /* background-image:url("assets/howtouse3.png");
     background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
-    background-position: center;   /* 背景画像の位置を中央に指定 */
-    background-size: contain;
+    /* background-position: center;   背景画像の位置を中央に指定 */
+    /* background-size: contain; */
+    object-fit: contain;
   }
   </style>
 </head>
@@ -44,7 +45,9 @@
                   <div class="card-body">
                     <p class="card-text">出題開始ボタンを押下すると問題が出題されます。出題範囲や難易度を設定したい場合は、それぞれ「▼範囲を指定する」、「▼難易度を指定する」タイトルを押して、任意に設定してください。</p>
                     <div class="">
-                    <p class="card-text imgHowToUse"></p>
+                      <%= image_tag 'howtouse1.png', class: 'card-text imgHowToUse' %>
+
+                    <%# <p class="card-text imgHowToUse"></p> %>
                     </div>
                   </div>
                 <p class="h6 bg-info text-white">問題を印刷する</p>
@@ -58,11 +61,11 @@
                     <li class="card-text">
                       出題する範囲・難易度・問題数・出題方法・出題形式をそれぞれ選択して、「問題を印刷する」ボタンを押してください。
                     </li>
-                    <p class="card-text imgHowToUse_2"></p>
+                      <%= image_tag 'howtouse2.png', class: 'card-text imgHowToUse_2' %>
                     <li class="card-text">
                       画面に問題が表示されたら、「印刷ボタン」を押してプリントアウトしてください。
                     </li>
-                    <p class="card-text imgHowToUse_3"></p>
+                      <%= image_tag 'howtouse3.png', class: 'card-text imgHowToUse_3' %>
                   </ol>
               </div>
             </div>
