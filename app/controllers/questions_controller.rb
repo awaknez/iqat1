@@ -55,6 +55,7 @@ class QuestionsController < ApplicationController
     choice = Choice.find(params[:choice_id])
     # q_idを読み取って、当該レコードを取得する
     question = Question.find(params[:question_id])
+    # 現時点で本番環境のDBのis_answerカラムがint型のため、choice.is_answer＝＝1をつけている。booleanで設定できれば変更する。
     if choice.is_answer == 1
       result = true
       # 正答したら、問題番号を正答数計上セッションに追加する
