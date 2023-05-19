@@ -41,6 +41,74 @@ Things you may want to cover:
 ## アプリケーションの概要
  アプリケーションの目的や機能の概要を記載することで、開発者以外の人がアプリケーションを理解しやすくなります。
 
+## テーブル
+
+### Questions テーブル
+
+`questions` テーブルは、出題する問題に関する情報を格納します。
+
+| 列名          | データ型    | 説明                         |
+| ------------- | --------- | --------------------------- |
+| id            | integer   | 問題のユニークなID           |
+| text          | text      | 問題の内容                   |
+| genre_id      | integer   | 関連するジャンルのID         |
+| created_at    | datetime  | 作成日時                     |
+| updated_at    | datetime  | 更新日時                     |
+| image         | text      | 問題に関連する画像のURL        |
+| priority_id   | integer   | 問題の優先度を表すID         |
+| level_id      | integer   | 問題の難易度を表すID         |
+
+### Choices テーブル
+
+`choices` テーブルは、選択肢に関する情報を格納します。
+
+| カラム名     | データ型       | 説明                 |
+| ----------- | ------------ | -------------------- |
+| id          | integer      | レコードの一意の識別子 |
+| choice      | varchar(255) | 選択肢               |
+| is_answer   | boolean      | 正解かどうかのフラグ  |
+| question_id | int          | 関連する問題の識別子 |
+| created_at  | datetime     | レコードの作成日時   |
+| updated_at  | datetime     | レコードの更新日時   |
+| commentary  | varchar(255) | 選択肢の解説        |
+
+### Answers テーブル
+
+`answers` テーブルは、解答に関する情報を格納します。
+
+
+| 列名       | データ型    | 説明                |
+| ---------- | --------- | ------------------ |
+| id         | integer   | 解答のユニークなID  |
+| answer     | text      | 解答の内容          |
+| created_at | datetime  | 作成日時            |
+| updated_at | datetime  | 更新日時            |
+| question_id| integer   | 関連する質問のID    |
+
+### Genres テーブル
+
+`genres` テーブルは、出題範囲に関する情報を格納します。
+
+| 列名       | データ型 | 説明               |
+| ---------- | -------- | ----------------- |
+| id         | integer  | ジャンルのID       |
+| name       | string   | ジャンルの名称     |
+| created_at | datetime | 作成日時           |
+| updated_at | datetime | 更新日時           |
+
+
+### Levels テーブル
+
+`levels` テーブルは、難易度に関する情報を格納します。
+
+| 列名       | データ型 | 説明               |
+| ---------- | -------- | ----------------- |
+| id         | integer  | 難易度のID         |
+| name       | string   | 難易度の名称       |
+| created_at | datetime | 作成日時           |
+| updated_at | datetime | 更新日時           |
+
+
 ## ライセンス
 
 - 使用するのは自由です。
