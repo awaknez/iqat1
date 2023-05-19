@@ -18,11 +18,10 @@
     <header>
       <div class="container-fluid bg-dark text-white px-3"> 
         <p class="h2 text-white">
-            <a class="navbar-brand" href="/">
+            <%= link_to root_path, method: :get do %>
             <%# <img src="assets/logo-training-gym.png" alt="logo" class="logo" style="height ; 10em; width: 25%;"> %>
-            <%= image_tag 'logo-training-gym.png', class: 'logo-img' ,style: ' width: 25%;'%>
-
-            </a>
+            <%= image_tag 'logo-training-gym.png', class: 'logo-img' ,style: ' height: 2em; width: 10em;'%>
+            <% end %>
 
         <%# <p><%= link_to(image_tag('images/qandAtraining230504.png', alt: "情報I 一問一答トレーニング"), "/", method: :get) %>
       </div>
@@ -58,11 +57,15 @@
                   </div>
                   <div class="blogInfo1 mt-5">
                     <p>大学入学共通テスト「情報」科対策はこちら▼</p>
-                    <a href="https://kotozeni.com/programming_sub_info_3111_summary_and_measures/" target="_blank">共通テスト「情報」対策に必要なことは？塾講師が解説！勉強法と参考書</a>
+                    <a href="https://kotozeni.com/programming_sub_info_3111_summary_and_measures/" target="_blank">
+                        <%= image_tag 'measures.jpg', class: '' ,style: 'height ; 10em; width: 80%;'%>
+                    </a>
                   </div>
                   <div class="blogInfo2 mt-5">
                     <p>「情報I」オススメ参考書はこちら▼</p>
-                    <a href="https://kotozeni.com/programming_sub_info_3745-recommend-textbook_2//" target="_blank">「情報I」オススメ参考書の紹介</a>
+                    <a href="https://kotozeni.com/programming_sub_info_3745-recommend-textbook_2//" target="_blank">
+                      <%= image_tag 'recommendTextbook.jpg', class: '' ,style: 'height ; 10em; width: 80%;'%>
+                    </a>
                   </div>
                 </div>
               </div>
