@@ -55,7 +55,7 @@ class QuestionsController < ApplicationController
     choice = Choice.find(params[:choice_id])
     # q_idを読み取って、当該レコードを取得する
     question = Question.find(params[:question_id])
-    if choice.is_answer
+    if choice.is_answer == 1
       result = true
       # 正答したら、問題番号を正答数計上セッションに追加する
       session[:correct_answers] << question.id
