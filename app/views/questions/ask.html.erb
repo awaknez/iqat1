@@ -67,15 +67,11 @@
                         <% if @asked_question_count.blank? %>
                         <div class="correct-rate question-nums">最初の問題／選択範囲の問題数:<span class="text-primary"><%= @question_nums%>問</span></div>
                         <% else%>
-                        <div class="card borded">
-                          <div class="card-body">
-                            <div class="correct-rate card-text">正解数:<span class="text-primary"><%= @correct_counts%></span>問／出題数:<%= @asked_question_count%>問【正答率<span class="text-primary"><%= @correct_rate%>%】</span></div>
-                              <%# @question_nums は配列形式で格納されており、eachメソッドを使わないと[]が表示されてしまう %>
-                              <% @question_nums.each do |num| %> 
-                                    ／選択範囲の問題数<%= num %>
-                              <% end %>
-                            </div>
-                          </div>
+                          <div class="correct-rate card-text">正解数:<span class="text-primary"><%= @correct_counts%></span>問／出題数:<%= @asked_question_count%>問【正答率<span class="text-primary"><%= @correct_rate%>%】</span></div>
+                            <%# @question_nums は配列形式で格納されており、eachメソッドを使わないと[]が表示されてしまう %>
+                            <% @question_nums.each do |num| %> 
+                                  ／選択範囲の問題数<%= num %>問
+                            <% end %>
                       <% end %> 
                     </div>
                     <div class="question_id bg-info text-white">
