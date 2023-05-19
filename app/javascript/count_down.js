@@ -13,7 +13,9 @@ function countDown(){
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
     // カウントダウンを表示する
+    document.getElementById("countdownforRight").innerHTML =  days ;
     document.getElementById("countdown").innerHTML =  days ;
+
 }
 
 window.addEventListener('load',countDown);
