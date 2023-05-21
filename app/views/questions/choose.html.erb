@@ -25,25 +25,30 @@
     height:15em;
     object-fit: contain;
   }
+
+  .annotation_1{
+    font-size:0.7em;
+  }
+  
   </style>
 </head>
 
         <%# 左カラム %>
         <div class="col-sm-8 bg-light">
           <div class="card borded my-3">
-            <div class="card-body">
+            <%# <div class="card-body">
               <div class="bg-info text-white">
                 <p>情報I 一問一答トレーニング</p>
               </div>
-            </div>
-            <div class="">
+            </div> %>
+            <div class="my-2">
               <%= image_tag 'iqatlogo2.jpg', class: 'top-img' %>
                 <%# <img src = "assets/qandatraining230504.png" alt="logo"> %>
               
             </div>
             <div class="applicationOutline my-3">
               <div class="whatsApp mb-3 d-flex justify-content-center" id="whatsApp" style="text-align: start;">
-                <button class="btn  btn-light">▼一問一答トレーニングとは▼</button>
+                <button class="btn  btn-light">▼一問一答トレーニングGYMとは▼</button>
               </div>
               <div id="applicationOutline" style="display: none;" class="card-body">
                 <p class="small">このアプリケーションは高校「情報I」の基礎語句を身につけるための一問一答アプリです。教科書に掲載されている基礎用語300語と擬似言語のプログラミング問題の中から解説付きでランダムに出題するWeb問題集です。スキマ時間を活用して基礎問題演習に取り組めて、無料・PC/スマホ/タブレット対応です。試験対策としてご活用ください。</p>
@@ -58,7 +63,7 @@
             </div>
             <%# 問題作成エリア %>
             <div class="my-2 mx-auto mt-5">
-              <p class="small text-center">問題印刷機能を使用する場合は、<br>ウインドウをPCの最大サイズまで大きくしてください</p>
+              <p class="small text-center annotation_1">問題印刷機能を使用する場合は、<br>ウインドウをPCの最大サイズまで大きくしてください</p>
               <ul class="nav nav-tabs border-bottom-0 mb-3 justify-content-center ">
                   <li class="nav-item mr-1 d-inline-block">
                     <a href="#tab1" type="button" class="btn btn-outline-secondary btn-lg border rounded font-weight-normal mx-2" data-toggle="modal" id ="createQuestionButton">問題選択</a>
@@ -72,11 +77,11 @@
             <%# 問題設定エリア %>
             <div class="contents row mb-5" id="chooseArea" style="display: block;">
               <%= form_with url: ask_questions_path, method: :post, local: true, class: 'form' do |form| %>
-                <div class="field col-6 mx-auto">
+                <div class="field col-10 col-lg-6 mx-auto">
                   <div class="">
                     <%= form.label :▼範囲を指定する, class: "labels text-primary h4 ", id:"categorySelectButton"%><br />
-                    <p class="small mx-3">全<%=@question_count_array[0]['all_counts:'] %>問</p>
-                    <p class="small mx-3">初期設定では全範囲が指定されています。</p>
+                    <p class="small mx-3 text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
+                    <p class="mx-3 annotation_1">初期設定では全範囲が指定されています。</p>
                   </div>
                   <div class="form-check mt-3 pb-3 border-bottom" id="categorySelectArea" style="display: none;">
                     <%= collection_check_boxes(:genre, :genre_ids, @genres, :id, :name, {include_hidden: false,checked: [1,2,3,4]}) do |b| %>
@@ -93,7 +98,7 @@
                   </div>
                   <div>
                     <%= form.label :▼難易度を指定する, class: "text-primary h4 labels", id:"levelSelectButton" %><br />
-                    <p class="small mx-3">全<%=@question_count_array[0]['all_counts:'] %>問</p>
+                    <p class="small mx-3 text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
                     <div class="form-check mt-3 pb-3 border-bottom" id="levelSelectArea" style="display: none;">
                       <%= collection_check_boxes(:level, :level_ids, @levels, :id, :name, {include_hidden: false,checked: [1,2,3,4]}) do |b| %>
                         <div class="form-check mt-3 pb-3 border-bottom">
@@ -108,7 +113,7 @@
                     </div>
                   </div>
                   <%= form.submit value: '出題開始', class: 'btn mx-auto d-block common-btn btn-primary btn-lg mt-3',data:{"turbolinks"=>false} %>
-                  <p class="small mt-3">※該当する問題が無い場合は問題が作成されずトップページに戻りますので条件を選び直してください。</p>
+                  <p class="small mt-3 annotation_1">※該当する問題が無い場合は問題が作成されずトップページに戻りますので条件を選び直してください。</p>
                 </div>
               <% end %>
             </div>
@@ -117,7 +122,7 @@
               <%= form_with url: print_questions_path, method: :post, local: true, class: 'form' do |form| %>
                   <div class="field d-none d-lg-block col-6 mx-auto">
                     <%= form.label :▼範囲を指定する, class: "text-primary h4 labels" %><br />
-                    <p class="small mx-3">全<%=@question_count_array[0]['all_counts:'] %>問</p>
+                    <p class="small mx-3 text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
                     <p class="small mx-3">問題を作成する範囲を設定してください。</p>
                     <div class="form-check mt-3 pb-3 border-bottom" >
                       <%= collection_check_boxes(:genre, :genre_ids, @genres, :id, :name, {include_hidden: false, checked: [1,2,3,4]}) do |b| %>
@@ -133,7 +138,7 @@
                       <% end %>
                     </div>
                     <%= form.label :▼難易度を指定する, class: "text-primary h4 labels" %><br />
-                    <p class="small mx-3">全<%=@question_count_array[0]['all_counts:'] %>問</p>
+                    <p class="small mx- text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
                     <div class="form-check mt-3 pb-3 border-bottom" >
                         <%= collection_check_boxes(:level, :level_ids, @levels, :id, :name, {include_hidden: false,checked: [1,2,3,4]}) do |b| %>
                           <div class="form-check mt-3 pb-3 border-bottom">
@@ -207,8 +212,8 @@
                     </div>
                   </div>
                   <div class="examInfo mt-5">
-                    <p>令和7年度の大学入学共通テストの情報はこちら▼</p>
-                    <p class="">
+                    <p>■令和7年度の大学入学共通テストの情報はこちら▼</p>
+                    <p class="text-center">
                       <a href="https://www.dnc.ac.jp/" target="_blank">
                       <%# <img src="assets/abm00000275.png" alt="大学入試センター" style="height ; 10em; width: 80%;"> %>
                       <%= image_tag 'abm00000275.png', class: '' ,style: 'height ; 10em; width: 45%;'%>
@@ -217,16 +222,28 @@
                     </p>
                   </div>
                   <div class="blogInfo1 mt-5">
-                    <p>大学入学共通テスト「情報」科対策はこちら▼</p>
-                      <a href="https://kotozeni.com/programming_sub_info_3111_summary_and_measures/" target="_blank">
-                        <%= image_tag 'measures.jpg', class: '' ,style: 'height ; 10em; width:  80%;'%>
-                      </a>
+                    <p>■大学入学共通テスト「情報」科対策はこちら▼</p>
+                      <div class="text-center">
+                        <a href="https://kotozeni.com/programming_sub_info_3111_summary_and_measures/" target="_blank">
+                          <%= image_tag 'measures.jpg', class: '' ,style: 'height ; 10em; width:  80%;'%>
+                        </a>
+                      </div>
                   </div>
                   <div class="blogInfo2 mt-5">
-                    <p>「情報I」オススメ参考書はこちら▼</p>
-                    <a href="https://kotozeni.com/programming_sub_info_3745-recommend-textbook_2//" target="_blank">
-                      <%= image_tag 'recommendTextbook.jpg', class: '' ,style: 'height ; 10em; width: 80%;'%>
-                    </a>
+                    <p>■「情報I」オススメ参考書はこちら▼</p>
+                      <div class="text-center">
+                        <a href="https://kotozeni.com/programming_sub_info_3745-recommend-textbook_2//" target="_blank">
+                          <%= image_tag 'recommendTextbook.jpg', class: 'text-center' ,style: 'height ; 10em; width: 80%;'%>
+                        </a>
+                      </div>
+                  </div>
+                  <div class="blogInfo3 mt-5">
+                    <p>■共通テスト「擬似言語」対応 プログラミング問題集はこちら▼</p>
+                      <div class="text-center">
+                        <a href="https://note.com/modern_knot259/n/n133d19a934c8" target="_blank">
+                          <%= image_tag 'prrogrammingtextbookEyecatch.jpg', class: 'text-center' ,style: 'height ; 10em; width: 80%;'%>
+                        </a>
+                      </div>
                   </div>
                 </div>
               </div>
