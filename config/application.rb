@@ -17,3 +17,12 @@ module Iqat1
     # the framework and any gems in your application.
   end
 end
+
+Rails.application.configure do
+  config.middleware.use Rack::Tracker do
+    handler :sql, {
+      table_name: 'visits',
+      connection: ActiveRecord::Base.connection
+    }
+  end
+end

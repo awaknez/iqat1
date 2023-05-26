@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_14_010723) do
+ActiveRecord::Schema.define(version: 2023_05_26_083202) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "answer"
@@ -58,6 +58,12 @@ ActiveRecord::Schema.define(version: 2023_05_14_010723) do
     t.text "image"
     t.integer "priority_id"
     t.integer "level_id"
+  end
+
+  create_table "visits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "ip_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
