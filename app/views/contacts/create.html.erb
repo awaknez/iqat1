@@ -1,13 +1,40 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>お問い合わせありがとうございました</title>
+
   <style>
+    .top-img{
+      /* width:100%;
+      height:15em;
+      background-image:url("assets/qandatraining230504.png");
+      background-repeat: no-repeat;  /* 背景画像を繰り返し表示しない */
+      /* background-position: center;   背景画像の位置を中央に指定 */
+      /* background-size: contain;    */
+      width:100%;
+      height:15em;
+      object-fit: contain;
+    }
   </style>
 </head>
-    <p class="h2">お問い合わせありがとうございました</p>
-    <p>お問い合わせを受け付けました。担当者より返信が届くまで、今しばらくお待ちください。</p>
-</html>
+        <%# 左カラム %>
+        <div class="col-sm-8 bg-light">
+          <div class="card borded my-3">
+            <div class="card-body">
+              <div class="my-2">
+                <%= image_tag 'iqatlogo2.jpg', class: 'top-img' %>
+              </div>
+              <div class="mb-4 text-center">
+                <p class="card-text h3 text-weight-bold">お問い合わせ<br>ありがとうございました。</p>
+                <p class=" my-4 ">お問い合わせを受け付けました。<br>担当者より返信が届くまで、今しばらくお待ちください。</p>
+              </div>
+              <div class="text-center">
+                <p>------</p>
+                <p><%= link_to 'トップページへ', root_path, method: :get %>
+              </div>
+            </div>
+          </div>
+        </div>
+

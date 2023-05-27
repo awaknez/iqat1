@@ -25,7 +25,7 @@
             </div>
             <div class="card borded my-3">
               <div class="card-body">
-                <%= form_with url: "/contact", method: "post" do |form| %>
+                <%= form_with model: @contact, url: "/contacts", local: true do |form| %>
                   <div class="">
                     <p><%= form.label :name, "◆氏名" %><span class="small text-danger">（必須）</span></p>
                     <p><%= form.text_field :name, class: "form-control bg-light",  required: true, placeholder: "毛利小五郎" %></p>
@@ -37,8 +37,8 @@
                   </div>
                 
                   <div>
-                    <p><%= form.label :subject, "◆題名" %><span class="small text-danger">（必須）</span></p>
-                    <p><%= form.text_field :subject, class: "form-control bg-light",  required: true, placeholder: "問題の誤植を発見" %></p>
+                    <p><%= form.label :title, "◆題名" %><span class="small text-danger">（必須）</span></p>
+                    <p><%= form.text_field :title, class: "form-control bg-light",  required: true, placeholder: "問題の誤植を発見" %></p>
                   </div>
                 
                   <div>

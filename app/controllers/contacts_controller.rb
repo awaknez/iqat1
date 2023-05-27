@@ -4,10 +4,11 @@
     end
   
     def create
+      # binding.pry
       @contact = Contact.new(contact_params)
       if @contact.save
         # お問い合わせフォームの入力内容を自動返信メールに記載
-        ContactMailer.send_when_create(@contact).deliver_now
+        ContactMailer.send_when_create(@contact).deliver
       else
         render :new
       end
