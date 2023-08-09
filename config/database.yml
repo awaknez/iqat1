@@ -62,3 +62,11 @@ production:
   database: iqat1_production
   username: iqat1
   password: <%= ENV['IQAT1_DATABASE_PASSWORD'] %>
+
+# production:
+#  <<: *default
+#   database: e55ebd3a163a6fdcf4a9ab90fef4883f
+#   username: e55ebd3a163a6fdcf4a9ab90fef4883f
+#   password: プロジェクト作成時に入力したDBパスワード
+#   host: mysql-2.mc.lolipop.lan
+

@@ -10,11 +10,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-    <meta name="description" content="高校「情報1」科に特化した一問一答Webアプリケーションです。教科書に掲載されている基礎用語の暗記に最適です。共通テストレベルの問題まで対応していますので対策にピッタリです。"><!--サイトの説明文-->
+    <meta name="description" content="高校「情報1」科の一問一答Webサイト・アプリケーションです。教科書に掲載されている基礎用語の暗記に最適です。共通テストレベルの問題まで対応していますので対策にピッタリです。"><!--サイトの説明文-->
 
     <meta property="og:image" content="<%= asset_path('iqatlogo2.jpg') %>">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="<%= asset_path('iqatlogo2.jpg') %>">
+    <!-- ファビコンを設定 -->
+    <link rel="icon" type="image/png" href="<%= asset_path('favicon-96x96.png') %>">
     <script>
     </script>
 
@@ -72,7 +74,7 @@
                   <div class="blogInfo2 mt-5">
                     <p>■情報I」オススメ参考書はこちら▼</p>
                       <div class="text-center">
-                        <a href="https://kotozeni.com/programming_sub_info_3745-recommend-textbook_2//" target="_blank">
+                        <a href="https://kotozeni.com/programming_sub_info_4818_recommend_textbooks/" target="_blank">
                           <%= image_tag 'recommendTextbook.jpg', class: '' ,style: 'height ; 10em; width: 80%;'%>
                         </a>
                       </div>
@@ -88,7 +90,7 @@
                   <div class="blogInfo4 mt-5">
                       <div class="text-center">
                         <a href="https://twitter.com/kotozeni" target="_blank">
-                          <%= image_tag 'TwitterButton.png', class: 'text-center' ,style: 'height ; 10em; width: 80%;'%>
+                          <%= image_tag 'iqat(x formerly tw).png', class: 'text-center' ,style: 'height ; 10em; width: 80%;'%>
                         </a>
                       </div>
                   </div>
