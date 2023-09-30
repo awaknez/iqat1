@@ -17,6 +17,19 @@
     <meta name="twitter:image" content="<%= asset_path('iqatlogo2.jpg') %>">
     <!-- ファビコンを設定 -->
     <link rel="icon" type="image/png" href="<%= asset_path('favicon-96x96.png') %>">
+    <style>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3940443246012720"
       crossorigin="anonymous">
@@ -31,8 +44,10 @@
             <%# <img src="assets/logo-training-gym.png" alt="logo" class="logo" style="height ; 10em; width: 25%;"> %>
             <%= image_tag 'logo-training-gym.png', class: 'logo-img' ,style: ' height: 2em; width: 10em;'%>
             <% end %>
-
         <%# <p><%= link_to(image_tag('images/qandAtraining230504.png', alt: "情報I 一問一答トレーニング"), "/", method: :get) %>
+        </p>
+      <h1 class="sr-only small mb-2">高校「情報1」科一問一答アプリ:トレーニングGYM</h1>
+      <h2 class="sr-only small mb-2">高校「情報1」科、共通テスト「情報」科の一問一答Webサイト・アプリケーション「トレーニングGYM」です。</h2>
       </div>
     </header>
     <main class="bg-secondary">
