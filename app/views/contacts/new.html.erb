@@ -106,8 +106,9 @@
           recaptchaResponse.value = token;
         });
       });
-      $('.submit-button').on('click', function() {
-        var recaptchaToken = $('#recaptcha_token').val();
+      document.querySelector('.submit-button').addEventListener('click', function() {
+        var recaptchaToken = document.getElementById('recaptcha_token').value;
         console.log('recaptchaToken:', recaptchaToken);
       });
+
       </script>
