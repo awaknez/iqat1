@@ -82,7 +82,7 @@
                   <%= form.label :agree_to_privacy_policy, "個人情報に関する規約に同意する" %>
                   <div class="mt-5 text-center">
                     <input id="recaptcha_token" name="recaptcha_token" type="hidden"/>
-                    <%= form.submit "送信" %>
+                    <%= form.submit "送信", class: "submit-button" %>
                   </div>
                   <!-- 同意に関するエラーメッセージの表示 -->
                     <% unless @contact.errors[:agree_to_privacy_policy].empty? %>
@@ -102,10 +102,12 @@
       <script>
       grecaptcha.ready(function() {
         grecaptcha.execute('6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk', {action: 'homepage'}).then(function(token) {
-          $('#recaptcha_token').val(token);
-          $('.submit-recaptcha').prop('disabled', false);
           var recaptchaResponse = document.getElementById('recaptcha_token');
           recaptchaResponse.value = token;
         });
+      });
+      $('.submit-button').on('click', function() {
+        var recaptchaToken = $('#recaptcha_token').val();
+        console.log('recaptchaToken:', recaptchaToken);
       });
       </script>
