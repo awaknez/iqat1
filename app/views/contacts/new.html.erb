@@ -104,6 +104,8 @@
         grecaptcha.execute('6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk', {action: 'homepage'}).then(function(token) {
           $('#recaptcha_token').val(token);
           $('.submit-recaptcha').prop('disabled', false);
+          var recaptchaResponse = document.getElementById('recaptcha_token');
+          recaptchaResponse.value = token;
         });
       });
       </script>
