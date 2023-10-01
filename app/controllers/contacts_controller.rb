@@ -6,11 +6,16 @@
     def create
       # binding.pry
       @contact = Contact.new(contact_params)
-      if @contact.save
-        # お問い合わせフォームの入力内容を自動返信メールに記載
-        ContactMailer.send_when_create(@contact).deliver
-      else
-        render :new
+      # if @contact.save
+      #   # お問い合わせフォームの入力内容を自動返信メールに記載
+      #   ContactMailer.send_when_create(@contact).deliver
+      # else
+      #   render :new
+      # end
+    # reCAPTCHAの検証
+      unless verify_recaptcha?(params[:recaptcha_token])
+        flash.now[:recaptcha_error] = I18n.t('recaptcha.errors.verification_failed')
+        return render action: :new
       end
     end
 

@@ -16,6 +16,14 @@
 </head>
 
         <%# 左カラム %>
+          <!-- reCAPTCHAのエラーメッセージ表示 -->
+          <% if flash[:recaptcha_error] %>
+            <div class="text">
+              <p><span class="error"><%= flash[:recaptcha_error] %></span></p>
+            </div>
+          <% end %>
+          <!-- reCAPTCHAのエラーメッセージ表示ここまで -->
+
           <div class="col-sm-8 bg-light my-3">
             <p class="h2 my-3 text-center">お問い合わせ</p>
             <div class="card borded">
@@ -44,7 +52,9 @@
                   <div>
                     <p><%= form.label :message, "◆メッセージ本文" %><span class="small text-danger">（必須）</span></p>
                     <p><%= form.text_area :message, class: "form-control bg-light", required: true, placeholder: "お問合せ内容をご入力ください。" %></p>
-                  </div>                
+                  </div>
+
+                  <!-- 個人情報に関する規約の表示 -->
                   <div class="privacy-policy-modal mb-3">
                     <p>【個人情報に関する規約】</p>
                     <!-- 個人情報に関する規約の内容をスクロールできる小ウインドウとして記述 -->
@@ -71,8 +81,10 @@
                   <%= form.check_box :agree_to_privacy_policy , required: true %>
                   <%= form.label :agree_to_privacy_policy, "個人情報に関する規約に同意する" %>
                   <div class="mt-5 text-center">
+                    <input id="recaptcha_token" name="recaptcha_token" type="hidden"/>
                     <%= form.submit "送信" %>
                   </div>
+                  <!-- 同意に関するエラーメッセージの表示 -->
                     <% unless @contact.errors[:agree_to_privacy_policy].empty? %>
                       <div class="alert alert-danger">
                         <%= @contact.errors[:agree_to_privacy_policy].first %>
@@ -84,3 +96,14 @@
               </div>
             </div>
           </div>
+      <!-- reCAPTCHAに必要 -->
+      <script src="https://www.google.com/recaptcha/api.js?render=6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk&ver=3.0"></script>
+
+      <script>
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk', {action: 'homepage'}).then(function(token) {
+          $('#recaptcha_token').val(token);
+          $('.submit-recaptcha').prop('disabled', false);
+        });
+      });
+      </script>

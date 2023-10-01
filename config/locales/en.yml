@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+
+en:
+  recaptcha:
+    errors:
+      verification_failed: 'reCAPTCHA Authorization Failed. Please try again later.'
