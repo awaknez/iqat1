@@ -97,11 +97,11 @@
             </div>
           </div>
       <!-- reCAPTCHAに必要 -->
-      <script src="https://www.google.com/recaptcha/api.js?render=<%= @recaptcha_site_key %>&ver=3.0"></script>
+      <script src="https://www.google.com/recaptcha/api.js?render=6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk&ver=3.0"></script>
 
       <script>
       grecaptcha.ready(function() {
-        grecaptcha.execute('<%= @recaptcha_site_key %>', {action: 'homepage'}).then(function(token) {
+        grecaptcha.execute('6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk', {action: 'homepage'}).then(function(token) {
           var recaptchaResponse = document.getElementById('recaptcha_token');
           recaptchaResponse.value = token;
         });
