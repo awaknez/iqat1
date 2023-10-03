@@ -12,11 +12,10 @@ class ApplicationController < ActionController::Base
     response = Net::HTTP.post_form(uri, {})
     result = JSON.parse(response.body)
     
-    puts "reCAPTCHA result: #{result}" # コンソールに結果を出力して確認
-    # r = Net::HTTP.get_response(uri)
-    # j = JSON.parse(r.body)
+    # コンソールに結果を出力して確認
+    # puts "reCAPTCHA result: #{result}"
+
     result['success'] && result['score'] > RECAPTCHA_MINIMUM_SCORE && result['action'] == RECAPTCHA_ACTION
-    # j['success'] && j['score'] > RECAPTCHA_MINIMUM_SCORE 
 
   end
 end

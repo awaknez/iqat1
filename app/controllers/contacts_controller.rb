@@ -1,8 +1,6 @@
   class ContactsController < ApplicationController
     def new
       @contact = Contact.new
-      # reCAPTCHAのサイトキーを設定
-      @recaptcha_site_key = '6Lc97mQoAAAAAKfEq5ADy8K8Fht55aKEoENlrFIk'
 
     end
   
