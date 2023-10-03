@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
     # j = JSON.parse(r.body)
     result['success'] && result['score'] > RECAPTCHA_MINIMUM_SCORE && result['action'] == RECAPTCHA_ACTION
     # j['success'] && j['score'] > RECAPTCHA_MINIMUM_SCORE 
-    binding.pry
 
   end
 end
