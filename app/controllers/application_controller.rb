@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   RECAPTCHA_ACTION = 'homepage'
 
   def verify_recaptcha?(token)
-    secret_key = Rails.application.credentials.recaptcha:secret_key
+    secret_key =  Rails.application.credentials.recaptcha[:secret_key]
     uri = URI.parse("https://www.google.com/recaptcha/api/siteverify?secret=#{secret_key}&response=#{token}")
     response = Net::HTTP.post_form(uri, {})
     result = JSON.parse(response.body)
