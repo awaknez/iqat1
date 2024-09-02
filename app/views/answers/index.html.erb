@@ -5,10 +5,12 @@
   </div>
 
   <div class="question_text">
-    <%= @question.text%>
+    <%# <%= @question.text%>
+    <%= simple_format(@question.text) %> <%# 修正点: simple_formatで改行を処理 %>
   </div>
   <div class="answer">
-    <%= @answer.answer%> <%# 2個目のanswerはカラム名%>
+    <%# <%= @answer.answer%> <%# 2個目のanswerはカラム名%>
+    <%= simple_format(@answer.answer) %> <%# 修正点: simple_formatで改行を処理 %>
   </div>
 
   <% if @chosen_choice.is_answer == true %>
@@ -24,7 +26,9 @@
       <h4>＜選択肢一覧＞</h4>
       <% @choices.each do |choice| %>
         <p>
-          <%= choice.choice %> <%# 2個目のchoiceはカラム名%>
+          <%# 2個目のchoiceはカラム名%>
+          <%# <%= choice.choice %>
+          <%= simple_format(choice.choice) %> <%# 修正点: simple_formatで改行を処理 %>
         </p>
       <% end %>
   </div>
