@@ -79,7 +79,7 @@
                   <div class="question_text card-body">
                     <p class="card-text"><%= simple_format(@question.text) %></p> <%# 修正点: simple_formatで改行を処理 %>
                     <%# <% if !@question.image.nil? %>
-                    <%#   <div class="question_image card-body" style="background-image: url(<%= @question.image %>);">
+                    <%#   <div class="question_image card-body" style="background-image: url(<%= @question.image %>
                     <%#     <p class="card-text">
                     <%#     <%# <%= @question.image %></p>
                     <%#   </div>
@@ -88,7 +88,7 @@
                     <%# <% end %>
                     <%# 画像が必要な場合、idに基づいた画像を表示する %>
                     <% if @question.image == 1 %> <%# 修正点: imageが1の場合に画像を表示する条件を追加 %>
-                      <% image_filename = "image/q#{@question.id}.jpg" %> <%# 画像のファイル名を定義 %>
+                      <% image_filename = "img/q#{@question.id}.jpg" %> <%# 画像のファイル名を定義 %>
                       <% if Rails.application.assets.find_asset(image_filename) %> <%# 修正点: 画像ファイルが存在するか確認 %>
                         <%= image_tag image_filename, alt: "Question Image", class: "img-fluid" %> <%# 修正点: image_tagヘルパーで画像を表示 %>
                       <% else %>
