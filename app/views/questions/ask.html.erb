@@ -87,10 +87,19 @@
                     <%#   <div class="d-none"></div>
                     <%# <% end %>
                     <%# 画像が必要な場合、idに基づいた画像を表示する %>
-                    <% if @question.image == 1 %> <%# 修正点: imageが1の場合に画像を表示する条件を追加 %>
-                      <% image_filename = "img/q#{@question.id}.jpg" %> <%# 画像のファイル名を定義 %>
-                      <% if Rails.application.assets.find_asset(image_filename) %> <%# 修正点: 画像ファイルが存在するか確認 %>
-                        <%= image_tag image_filename, alt: "Question Image", class: "img-fluid" %> <%# 修正点: image_tagヘルパーで画像を表示 %>
+                    <%# <% if @question.image == 1 %> <%# 修正点: imageが1の場合に画像を表示する条件を追加 %>
+                    <%#   <% image_filename = "img/q#{@question.id}.jpg" %> <%# 画像のファイル名を定義 %>
+                    <%#   <% if Rails.application.assets.find_asset(image_filename) %> <%# 修正点: 画像ファイルが存在するか確認 %>
+                    <%#     <%= image_tag image_filename, alt: "Question Image", class: "img-fluid" %> <%# 修正点: image_tagヘルパーで画像を表示 %>
+                    <%#   <% else %>
+                    <%#     <p>画像が見つかりません。</p>
+                      <% end %>
+                    <%# <% end %>
+                    <%# 修正点: imageカラムの内容を直接使用して画像を表示する %>
+                    <% if @question.image.present? %> <%# imageカラムが空でない場合に表示 %>
+                      <% image_path = @question.image %> <%# imageカラムの内容をそのまま使用 %>
+                      <% if Rails.application.assets.find_asset(image_path) %> <%# 画像ファイルが存在するか確認 %>
+                        <%= image_tag image_path, alt: "Question Image", class: "img-fluid" %> <%# image_tagヘルパーで画像を表示 %>
                       <% else %>
                         <p>画像が見つかりません。</p>
                       <% end %>
