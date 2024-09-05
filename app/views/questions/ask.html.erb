@@ -97,8 +97,8 @@
                     <%# <% end %>
                     <%# 修正点: imageカラムの内容を直接使用して画像を表示する %>
                     <% if @question.image.present? %> <%# imageカラムが空でない場合に表示 %>
-                      <% image_path = @question.image %> <%# imageカラムの内容をそのまま使用 %>
-                      <% if Rails.application.assets.find_asset(image_path) %> <%# 画像ファイルが存在するか確認 %>
+                    <%#   <% image_path = @question.image %> <%# imageカラムの内容をそのまま使用 %>
+                    <%#   <% if Rails.application.assets.find_asset(image_path) %> <%# 画像ファイルが存在するか確認 %>
                         <%= image_tag image_path, alt: "Question Image", class: "img-fluid" %> <%# image_tagヘルパーで画像を表示 %>
                       <% else %>
                         <p>画像が見つかりません。</p>
