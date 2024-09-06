@@ -172,14 +172,28 @@
 
                       <div class="choices">
                         <p class="bg-primary text-white">選択肢の解説</p>
-                        <ul>
+                        <%# <ul>
                           <% @choices.each do |choice| %>
-                            <li>
+                          <%#   <li>
                               <p class="text-primary"><%= simple_format(choice.choice) %></p> <%# 修正点: simple_formatで改行を処理 %>
-                              <p class="small"><%= simple_format(choice.commentary) %></p> <%# 修正点: simple_formatで改行を処理 %>
-                            </li>
+                          <%#     <p class="small"><%= simple_format(choice.commentary) %></p> <%# 修正点: simple_formatで改行を処理 %>
+                          <%#   </li>
                           <% end %>
-                        </ul>
+                        <%# </ul>%>
+                          <ul>
+                            <% @choices.each do |choice| %>
+                              <li>
+                                <p class="text-primary"><%= simple_format(choice.choice) %></p> <%# 修正点: simple_formatで改行を処理 %>
+
+                                <%# 画像がある場合は表示 %>
+                                <% if choice.image.present? %>
+                                  <%= image_tag "choices/#{choice.image}", alt: "Choice Image", class: "img-fluid mt-2" %>
+                                <% end %>
+
+                                <p class="small"><%= simple_format(choice.commentary) %></p> <%# 修正点: simple_formatで改行を処理 %>
+                              </li>
+                            <% end %>
+                          </ul>
                       </div>
                     </div>
                   </div>
