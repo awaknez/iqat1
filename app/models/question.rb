@@ -6,14 +6,14 @@ class Question < ApplicationRecord
 
   def self.selectQuestion(session)
     if session[:question_range] .present?
-      # question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RAND()").first
+      question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RAND()").first
       # PostgresQLなら以下 
-      question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
+      # question = Question.where(id: session[:question_range]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
     else
       #当メソッドを呼び出す際には最低1回はask~resultメソッドを実行している。そのため、セッションを参考にして分野を指定しながら出題済みの問題を避けて次の問題（インスタンス）を取得できる。
-      # question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RAND()").first
+      question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RAND()").first
       # PostgresQLなら以下 
-      question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
+      # question = Question.where(genre_id: session[:selected_genre_ids],level_id: session[:selected_level_ids]).where.not(id: session[:asked_question_ids]).order("RANDOM()").first
 
     end
     return question

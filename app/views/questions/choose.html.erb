@@ -243,26 +243,26 @@
             <%# ここから問題印刷用 %>
             <div class="contents row mb-5" id="printSelectArea" style="display: none;">
               <%= form_with url: print_questions_path, method: :post, local: true, class: 'form' do |form| %>
-                  <div class="field d-none d-lg-block col-6 mx-auto">
-                    <%= form.label :▼範囲を指定する, class: "text-primary h4 labels" %><br />
+                <div class="field d-none d-lg-block col-6 mx-auto">
+                  <%= form.label :▼範囲を指定する, class: "text-primary h4 labels" %><br />
                     <p class="small mx-3 text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
                     <p class="small mx-3">問題を作成する範囲を設定してください。</p>
                     <div class="form-check mt-3 pb-3 border-bottom" >
                       <%= collection_check_boxes(:genre, :genre_ids, @genres, :id, :name, {include_hidden: false, checked: [1,2,3,4]}) do |b| %>
-                          <div class="form-check mt-3 pb-3 border-bottom">
+                        <div class="form-check mt-3 pb-3 border-bottom">
                             <%# <%= b.label { b.check_box + b.text } %>
-                                <%= b.label class: "form-check-label" do %>
-                                  <%= b.check_box class: "form-check-input" %>
-                                  <%= b.text %>
+                            <%= b.label class: "form-check-label" do %>
+                            <%= b.check_box class: "form-check-input" %>
+                            <%= b.text %>
                                   <%# question_count_arrayの2番目の要素にgenre_idというキーで格納されている要素を取得する %>
-                                  <span class="small">全<%= @question_count_array[1]["genre_id:#{b.value}"] %>問</span>
-                              <% end %>
-                            </div>
+                            <span class="small">全<%= @question_count_array[1]["genre_id:#{b.value}"] %>問</span>
+                            <% end %>
+                        </div>
                       <% end %>
                     </div>
                     <%= form.label :▼難易度を指定する, class: "text-primary h4 labels" %><br />
-                    <p class="small mx- text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
-                    <div class="form-check mt-3 pb-3 border-bottom" >
+                      <p class="small mx- text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
+                      <div class="form-check mt-3 pb-3 border-bottom" >
                         <%= collection_check_boxes(:level, :level_ids, @levels, :id, :name, {include_hidden: false,checked: [1,2,3,4]}) do |b| %>
                           <div class="form-check mt-3 pb-3 border-bottom">
                             <%= b.label class: "form-check-label" do %>

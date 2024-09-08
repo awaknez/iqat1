@@ -10,9 +10,9 @@ class QuestionsController < ApplicationController
     @genres = Genre.all
     @levels = Level.all
     # MySQLなら以下
-    # @question = Question.where(level_id: 1).order("RAND()").first
+    @question = Question.where(level_id: 1).order("RAND()").first
     # PostageSQLなら以下
-    @question = Question.where(level_id: 1).order("RANDOM()").first
+    # @question = Question.where(level_id: 1).order("RANDOM()").first
     @answer = Answer.find(@question.id)
 
     # 基礎問題の問題数を取得（すでに実装済み）
@@ -29,7 +29,6 @@ class QuestionsController < ApplicationController
 			initialize_session
 			genre_ids = Genre.select_genre(session, params)
 			level_ids = Level.select_level(session, params)
-
       # 出題数を格納
       # @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
       # session[:question_nums] << @question_nums
@@ -41,21 +40,27 @@ class QuestionsController < ApplicationController
 
       # 実践問題（modeがpracticeの場合）の場合はlevel_idを4で固定
       if params[:mode] == 'practice'
+        # 実践問題用にlevel_idを4に固定してセッションに保存
+        session[:selected_genre_ids] = genre_ids
+        session[:selected_level_ids] = [4]  # 実践問題なのでlevel_idは4
         # 実践問題のみを出題（出題数を格納）
         @question_nums = Question.where(genre_id: genre_ids, level_id: 4).count
         session[:question_nums] << @question_nums
         # MySQLの場合
-        # @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
+        @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
         # PostageSQLなら以下
-        @question = Question.where(genre_id: genre_ids, level_id: 4).order("RANDOM()").first
+        # @question = Question.where(genre_id: genre_ids, level_id: 4).order("RANDOM()").first
       else
+        # 基礎問題の場合は選択されたlevel_idsをセッションに保存
+        session[:selected_genre_ids] = genre_ids
+        session[:selected_level_ids] = level_ids  # 選択されたlevel_idsを保存
         # 基礎問題の処理（出題数を格納）
         @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
         session[:question_nums] << @question_nums
         # MySQLの場合
-        # @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
+        @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
         # PostageSQLなら以下
-        @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").first
+        # @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").first
       end
 
       if @question.present?
@@ -65,9 +70,9 @@ class QuestionsController < ApplicationController
         end
 
         #取得した問題インスタンスに付随する選択肢を取得する。
-        # @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+        @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
         # PostageSQLなら以下
-        @choices = @question.choices.includes(:question).order("RANDOM()") 
+        # @choices = @question.choices.includes(:question).order("RANDOM()") 
         @answer = Answer.find(@question.id)
     
       else
@@ -99,12 +104,12 @@ class QuestionsController < ApplicationController
   def next_question
       session = request.session
 			@question = Question.selectQuestion(session)
-        # session[:asked_question_ids]に取得したインスタンスの問題idを追加格納する。
+      #   session[:asked_question_ids]に取得したインスタンスの問題idを追加格納する。
       if @question.present?
           session[:asked_question_ids] << @question.id
-          # @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+          @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
           # PostageSQL
-          @choices = @question.choices.includes(:question).order("RANDOM()") 
+          # @choices = @question.choices.includes(:question).order("RANDOM()") 
           @answer = Answer.find(@question.id)
 
           if session[:question_nums].present?
@@ -122,6 +127,42 @@ class QuestionsController < ApplicationController
       else
           redirect_to score_questions_path
       end 
+        # session = request.session
+      
+        # # セッションから genre_ids と level_ids を取得してフィルタリング
+        # genre_ids = session[:genre_ids] || Genre.select_genre(session, params)
+        # level_ids = session[:level_ids] || Level.select_level(session, params)
+      
+        # # 実践問題の場合、level_id == 4 で絞り込む
+        # if params[:mode] == 'practice'
+        #   @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
+        # else
+        #   # 基礎問題の場合は、level_ids をそのまま使用
+        #   @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
+        # end
+      
+        # if @question.present?
+        #   # session[:asked_question_ids]に取得したインスタンスの問題idを追加格納する。
+        #   session[:asked_question_ids] << @question.id unless session[:asked_question_ids].include?(@question.id)
+      
+        #   @choices = @question.choices.includes(:question).order("RAND()")
+        #   @answer = Answer.find(@question.id)
+      
+        #   if session[:question_nums].present?
+        #     @question_nums = session[:question_nums]
+        #   end
+      
+        #   # 出題された問題数、正解数、正答率を計算
+        #   @asked_question_count = count_asked_question
+        #   @correct_counts = count_correct_counts
+        #   @correct_rate = Question.calcCorrectRate(@asked_question_count, @correct_counts)
+      
+        #   # askアクションのビューを表示
+        #   render :ask
+        # else
+        #   redirect_to score_questions_path
+        # end
+      
   end
 
   def score
