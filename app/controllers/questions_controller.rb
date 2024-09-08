@@ -14,7 +14,14 @@ class QuestionsController < ApplicationController
     # PostageSQLなら以下
     @question = Question.where(level_id: 1).order("RANDOM()").first
     @answer = Answer.find(@question.id)
+
+    # 基礎問題の問題数を取得（すでに実装済み）
     @question_count_array = Question.calcQuestionsCounts
+
+    # 実践問題の問題数（level_id == 4）を取得
+    @practice_question_count_array = Question.where(level_id: 4).group(:genre_id).count
+
+  # その後、ビューに@question_count_arrayと@practice_question_count_arrayを渡す
   end
 
 
@@ -24,13 +31,32 @@ class QuestionsController < ApplicationController
 			level_ids = Level.select_level(session, params)
 
       # 出題数を格納
-      @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
-      session[:question_nums] << @question_nums
+      # @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
+      # session[:question_nums] << @question_nums
 
       # genre_idsに入っている分野idと一致するインスタンスを1つ取得する
       # @question = Question.where(genre_id: genre_ids,level_id: level_ids).order("RAND()").first
       # PostageSQLなら以下
-      @question = Question.where(genre_id: genre_ids,level_id: level_ids).order("RANDOM()").first
+      # @question = Question.where(genre_id: genre_ids,level_id: level_ids).order("RANDOM()").first
+
+      # 実践問題（modeがpracticeの場合）の場合はlevel_idを4で固定
+      if params[:mode] == 'practice'
+        # 実践問題のみを出題（出題数を格納）
+        @question_nums = Question.where(genre_id: genre_ids, level_id: 4).count
+        session[:question_nums] << @question_nums
+        # MySQLの場合
+        # @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
+        # PostageSQLなら以下
+        @question = Question.where(genre_id: genre_ids, level_id: 4).order("RANDOM()").first
+      else
+        # 基礎問題の処理（出題数を格納）
+        @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
+        session[:question_nums] << @question_nums
+        # MySQLの場合
+        # @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
+        # PostageSQLなら以下
+        @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").first
+      end
 
       if @question.present?
         # session[:asked_question_ids]に取得したインスタンスの問題idを格納する。

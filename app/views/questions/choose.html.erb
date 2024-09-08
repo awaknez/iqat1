@@ -46,6 +46,47 @@
   gtag('js', new Date());
 
   gtag('config', 'G-NW96H3WP8L');
+  
+    document.addEventListener("DOMContentLoaded", function() {
+    const basicRadio = document.getElementById('mode_basic');
+    const practiceRadio = document.getElementById('mode_practice');
+
+    // 基礎問題と実践問題の問題数表示エリアを取得
+    const basicQuestionCounts = document.querySelectorAll('.basic-question-count');
+    const practiceQuestionCounts = document.querySelectorAll('.practice-question-count');
+
+    // 基礎問題と実践問題の総数表示エリアを取得
+    const basicTotalCount = document.querySelector('.basic-total-count');
+    const practiceTotalCount = document.querySelector('.practice-total-count');
+
+    // 基礎問題を選択したときの動作
+    basicRadio.addEventListener('change', function() {
+      basicQuestionCounts.forEach(function(count) {
+        count.style.display = 'inline'; // 基礎問題を表示
+      });
+      practiceQuestionCounts.forEach(function(count) {
+        count.style.display = 'none';   // 実践問題を非表示
+      });
+
+      // 総数も切り替え
+      basicTotalCount.style.display = 'block';
+      practiceTotalCount.style.display = 'none';
+    });
+
+    // 実践問題を選択したときの動作
+    practiceRadio.addEventListener('change', function() {
+      basicQuestionCounts.forEach(function(count) {
+        count.style.display = 'none';   // 基礎問題を非表示
+      });
+      practiceQuestionCounts.forEach(function(count) {
+        count.style.display = 'inline'; // 実践問題を表示
+      });
+
+      // 総数も切り替え
+      basicTotalCount.style.display = 'none';
+      practiceTotalCount.style.display = 'block';
+    });
+  });
 </script>
         <%# 左カラム %>
         <div class="col-sm-8 bg-light">
@@ -104,7 +145,7 @@
             </div>
 
             <%# 問題設定エリア %>
-            <div class="contents row mb-5" id="chooseArea" style="display: block;">
+            <!-- <div class="contents row mb-5" id="chooseArea" style="display: block;">
               <%= form_with url: ask_questions_path, method: :post, local: true, class: 'form' do |form| %>
                 <div class="field col-10 col-lg-6 mx-auto">
                   <div class="">
@@ -124,26 +165,79 @@
                           <% end %>
                       </div>
                     <% end %>
-                  </div>
-                  <div>
+                  </div> -->
+                  <%# ここから難易度指定 %>
+                  <!-- <div>
                     <%= form.label :▼難易度を指定する, class: "text-primary h4 labels", id:"levelSelectButton" %><br />
                     <p class="small mx-3 text-end">全<%=@question_count_array[0]['all_counts:'] %>問</p>
                     <div class="form-check mt-3 pb-3 border-bottom" id="levelSelectArea" style="display: none;">
                       <%= collection_check_boxes(:level, :level_ids, @levels, :id, :name, {include_hidden: false,checked: [1,2,3,4]}) do |b| %>
                         <div class="form-check mt-3 pb-3 border-bottom">
                           <%= b.label class: "form-check-label" do %>
-                                <%= b.check_box class: "form-check-input " %>
+                              <%= b.check_box class: "form-check-input " %>
                                 <%= b.text %>
                                 <%# question_count_arrayの3番目の要素にlevelというキーで格納されている要素を取得する %>
                                 <span class="small">全<%= @question_count_array[2]["level:#{b.value}"] %>問</span>
                           <% end %>
                         </div>
                       <% end %>
-                    </div>
+                    </div> 
                   </div>
                   <%= form.submit value: '出題開始', class: 'btn mx-auto d-block common-btn btn-primary btn-lg mt-3',data:{"turbolinks"=>false} %>
+                  -->
+                  <div class="contents row mb-5" id="chooseArea" style="display: block;">
+                    <%= form_with url: ask_questions_path, method: :post, local: true, class: 'form' do |form| %>
+
+                      <!-- 基礎問題か実践問題かを選択 -->
+                      <div class="field col-10 col-lg-6 mx-auto">
+                        <h4>問題の種類を選択してください</h4>
+                        <div class="form-check">
+                          <%= form.radio_button :mode, 'basic', id: 'mode_basic', checked: true %> <!-- デフォルトで基礎問題を選択 -->
+                          <%= form.label :mode_basic, '基礎問題' %>
+                        </div>
+                        <div class="form-check">
+                          <%= form.radio_button :mode, 'practice', id: 'mode_practice' %> <!-- 実践問題を選択可能に -->
+                          <%= form.label :mode_practice, '実践問題（入試問題）' %>
+                        </div>
+                      </div>
+
+                      <!-- 基礎問題と実践問題の総数を表示 -->
+                      <div class="field col-10 col-lg-6 mx-auto">
+                        <p class="small mx-3 text-end basic-total-count">全<%= @question_count_array[0]['all_counts:'] %>問</p>
+                        <p class="small mx-3 text-end practice-total-count" style="display: none;">全<%= @practice_question_count_array.values.sum %>問</p> <!-- 実践問題総数 -->
+                      </div>
+
+                      <!-- 範囲の選択（基礎問題も実践問題も使用） -->
+                      <div class="field col-10 col-lg-6 mx-auto">
+                        <div class="">
+                          <%= form.label :▼範囲を指定する, class: "labels text-primary h4 ", id:"categorySelectButton"%><br />
+                          <p class="mx-3 annotation_1" id="questionCountInfo">初期設定では全範囲が指定されています。</p>
+                        </div>
+
+                        <div class="form-check mt-3 pb-3 border-bottom" id="categorySelectArea">
+                          <%= collection_check_boxes(:genre, :genre_ids, @genres, :id, :name, {include_hidden: false, checked: @genres.map(&:id)}) do |b| %>
+                            <div class="form-check mt-3 pb-3 border-bottom">
+                              <%= b.label class: "form-check-label" do %>
+                                <%= b.check_box class: "form-check-input" %>
+                                <%= b.text %>
+                                <!-- 基礎問題の問題数表示 -->
+                                <span class="small basic-question-count" id="basic_question_count_genre_<%= b.value %>">全<%= @question_count_array[1]["genre_id:#{b.value}"] %>問</span>
+                                <!-- 実践問題の問題数表示（非表示にしておく） -->
+                                <% genre_id = b.value.to_i %> <!-- b.valueを整数に変換 -->
+                                <span class="small practice-question-count" id="practice_question_count_genre_<%= b.value %>" style="display: none;">全<%= @practice_question_count_array[genre_id] || 0 %>問</span>
+                              <% end %>
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
+                      <!-- 隠しフィールドで実践問題はlevel_idを4に固定 -->
+                      <%= form.hidden_field :level_ids, value: 4, id: "hidden_level_4", disabled: true %>
+
+                      <!-- 統一した問題作成ボタン -->
+                      <%= form.submit value: '問題作成', class: 'btn mx-auto d-block common-btn btn-primary btn-lg mt-3', data: { "turbolinks" => false } %>
+                    <% end %>
+                  </div>
                   <p class="small mt-3 annotation_1">※該当する問題が無い場合は問題が作成されずトップページに戻りますので条件を選び直してください。</p>
-                </div>
               <% end %>
             </div>
             <%# ここから問題印刷用 %>
@@ -223,7 +317,6 @@
             <div class="anslink px-3 mb-2 small" style="text-align: end;">
               <span><%= link_to '◆一問一答トレーニングの利用方法◆', "/howtouse", method: :get %></span>
             </div>
-          </div>
         </div>
 
         <%# Informationエリア %>
