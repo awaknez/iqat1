@@ -12,21 +12,24 @@
   <p>次の問題文の答えとして最も適している語句を選びなさい。</p>
   </div>
   <div class="question_text">
-    <%= @incorrect_question.text%>
+    <%= simple_format(@incorrect_question.text)%>
   </div>
   <%# 画像がある場合は表示する %>
-  <div class="question_image">
+  <!-- <div class="question_image">
     <% if @incorrect_question.image != nil %>
       <%= @incorrect_question.image %>
     <% end %>
-  </div>
+  </div> -->
+      <% if @incorrect_question.image.present? %> <%# imageカラムが空でない場合に表示 %>
+        <%= image_tag @incorrect_question.image, alt: "Question Image", class: "img-fluid" %> <%# imageカラムの内容を直接使用して画像を表示 %>
+      <% end %>
   <%# 選択肢を表示 %>
   <div class="choices">
       <h4>＜解答一覧＞</h4>
-      <p>ア.  <%= @choices[0].choice%></p>
-      <p>イ.  <%= @choices[1].choice%></p>
-      <p>ウ.  <%= @choices[2].choice%></p>
-      <p>エ.  <%= @choices[3].choice%></p>
+      <p>ア.  <%= simple_format(@choices[0].choice)%></p>
+      <p>イ.  <%= simple_format(@choices[1].choice)%></p>
+      <p>ウ.  <%= simple_format(@choices[2].choice)%></p>
+      <p>エ.  <%= simple_format(@choices[3].choice)%></p>
     
     <div class="button-list" style="display:flex;" id="button-list">
     <%= button_to "ア", "/questions/result", {method: :post, params: {choice_id: @choices[0].id, question_id: @incorrect_question.id}, class: "buttons",data: { "choice-id" => @choices[0].id, "choice-name" =>"ア", "question-id" => @incorrect_question.id},"csrf-token" => form_authenticity_token  }%>
@@ -52,7 +55,7 @@
     </div>
 
     <div class="question_text">
-      <%= @incorrect_question.text%>
+      <%= simple_format(@incorrect_question.text)%>
     </div>
     <div class="answer">
       <%= @answer.answer%> <%# 2個目のanswerはカラム名%>
@@ -62,7 +65,11 @@
         <h4>＜選択肢一覧＞</h4>
         <% @choices.each do |choice| %>
           <p>
-            <%= choice.choice %> <%# 2個目のchoiceはカラム名%>
+            <%= simple_format(choice.choice) %> <%# 2個目のchoiceはカラム名%>
+            <%# 画像がある場合は表示 %>
+            <% if choice.image.present? %>
+              <%= image_tag "choices/#{choice.image}", alt: "Choice Image", class: "img-fluid mt-2" %>
+            <% end %>
           </p>
         <% end %>
     </div>
