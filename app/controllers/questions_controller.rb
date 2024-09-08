@@ -10,9 +10,9 @@ class QuestionsController < ApplicationController
     @genres = Genre.all
     @levels = Level.all
     # MySQLなら以下
-    @question = Question.where(level_id: 1).order("RAND()").first
+    # @question = Question.where(level_id: 1).order("RAND()").first
     # PostageSQLなら以下
-    # @question = Question.where(level_id: 1).order("RANDOM()").first
+    @question = Question.where(level_id: 1).order("RANDOM()").first
     @answer = Answer.find(@question.id)
 
     # 基礎問題の問題数を取得（すでに実装済み）
@@ -47,9 +47,9 @@ class QuestionsController < ApplicationController
         @question_nums = Question.where(genre_id: genre_ids, level_id: 4).count
         session[:question_nums] << @question_nums
         # MySQLの場合
-        @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
+        # @question = Question.where(genre_id: genre_ids, level_id: 4).order("RAND()").first
         # PostageSQLなら以下
-        # @question = Question.where(genre_id: genre_ids, level_id: 4).order("RANDOM()").first
+        @question = Question.where(genre_id: genre_ids, level_id: 4).order("RANDOM()").first
       else
         # 基礎問題の場合は選択されたlevel_idsをセッションに保存
         session[:selected_genre_ids] = genre_ids
@@ -58,9 +58,9 @@ class QuestionsController < ApplicationController
         @question_nums = Question.where(genre_id: genre_ids, level_id: level_ids).count
         session[:question_nums] << @question_nums
         # MySQLの場合
-        @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
+        # @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RAND()").first
         # PostageSQLなら以下
-        # @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").first
+        @question = Question.where(genre_id: genre_ids, level_id: level_ids).order("RANDOM()").first
       end
 
       if @question.present?
@@ -70,9 +70,9 @@ class QuestionsController < ApplicationController
         end
 
         #取得した問題インスタンスに付随する選択肢を取得する。
-        @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+        # @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
         # PostageSQLなら以下
-        # @choices = @question.choices.includes(:question).order("RANDOM()") 
+        @choices = @question.choices.includes(:question).order("RANDOM()") 
         @answer = Answer.find(@question.id)
     
       else
@@ -107,9 +107,9 @@ class QuestionsController < ApplicationController
       #   session[:asked_question_ids]に取得したインスタンスの問題idを追加格納する。
       if @question.present?
           session[:asked_question_ids] << @question.id
-          @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
+          # @choices = @question.choices.includes(:question).order("RAND()") #questionとアソシエーション関係なので（）の中にはカラム名ではなく関係のあるモデル名にする「_id」は不要
           # PostageSQL
-          # @choices = @question.choices.includes(:question).order("RANDOM()") 
+          @choices = @question.choices.includes(:question).order("RANDOM()") 
           @answer = Answer.find(@question.id)
 
           if session[:question_nums].present?
