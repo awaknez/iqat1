@@ -25,4 +25,8 @@ Rails.application.routes.draw do
   get '/policy', to: 'contacts#policy'
   # 使い方ページへのアクセス
   get '/howtouse', to: 'contacts#howtouse'
+
+  # リンク集ページへのアクセス
+  get '/links', to: 'contacts#links'
+
 end
