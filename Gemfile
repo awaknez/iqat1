@@ -64,8 +64,9 @@ end
 
 gem 'dotenv-rails'
 
-# gem 'nokogiri', '1.18.8', platforms: [:ruby]
-# gem "nokogiri", "~> 1.14", platforms: [:ruby]
-gem 'nokogiri', '1.18.8', require: false
+
+# Gemfile
+gem 'nokogiri', '~> 1.18', platforms: [:ruby]
+
 
 
