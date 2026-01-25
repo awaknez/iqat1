@@ -1,8 +1,8 @@
 function countDown(){
 
 // カウントダウンを表示する日付を設定する
-    //令和６年の共通テストの日程を指定する 
-    var countDownDate = new Date("Jan 17, 2026 00:00:00").getTime();
+    //令和９年の共通テストの日程を指定する 
+    var countDownDate = new Date("Jan 16, 2027 00:00:00").getTime();
 
     // 現在の日付を取得する
     var now = new Date().getTime();
