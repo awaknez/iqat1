@@ -1,23 +1,22 @@
+
 #!/usr/bin/env bash
 set -o errexit
 set -o pipefail
 
 echo "Ruby: $(ruby -v)"
 
-# Render環境で bundler 2.7.x が選ばれて落ちるのを避けるため、Rails6 + Ruby3.1で動く bundler を明示
-echo "Installing bundler 2.1.4..."
-gem install bundler -v 2.1.4 --no-document
+# lockfile に合わせて bundler 2.7.2 を使う
+if ! gem list -i bundler -v 2.7.2 >/dev/null 2>&1; then
+  echo "Installing bundler 2.7.2..."
+  gem install bundler -v 2.7.2 --no-document
+fi
 
-echo "Bundler:"
-bundle _2.1.4_ -v
+echo "Bundler: $(bundle _2.7.2_ -v)"
 
-# gems install
-bundle _2.1.4_ config set without 'development test'
-bundle _2.1.4_ install --jobs 4 --retry 3
+bundle _2.7.2_ config set without 'development test'
+bundle _2.7.2_ install
 
-# JS deps (webpacker)
 yarn install --frozen-lockfile
 
-# assets
-bundle _2.1.4_ exec rake assets:precompile
-bundle _2.1.4_ exec rake assets:clean
+bundle _2.7.2_ exec rake assets:precompile
+bundle _2.7.2_ exec rake assets:clean
