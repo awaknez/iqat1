@@ -10,7 +10,7 @@ if Psych.respond_to?(:safe_load)
 
     # safe_load を上書き（必ず退避した方を呼ぶので再帰しない）
     def safe_load(yaml, *args, **kwargs)
-      kwargs[:aliases] = true unless kwargs.key?(:aliases)
+      kwargs[:aliases] = true 
       safe_load_without_aliases(yaml, *args, **kwargs)
     end
   end
