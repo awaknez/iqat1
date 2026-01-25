@@ -7,4 +7,4 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 require "psych"
 Psych::DEFAULT_OPTIONS[:aliases] = true if Psych.const_defined?(:DEFAULT_OPTIONS)
 
-require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
+# require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
