@@ -70,6 +70,7 @@ Things you may want to cover:
 | question_id | int          | 関連する問題の識別子 |
 | created_at  | datetime     | レコードの作成日時   |
 | updated_at  | datetime     | レコードの更新日時   |
+| image       | text         | 問題に関連する画像のURL 　|
 | commentary  | varchar(255) | 選択肢の解説        |
 
 ### Answers テーブル
