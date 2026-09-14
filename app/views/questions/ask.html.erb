@@ -56,12 +56,7 @@
     margin-bottom: 10px;
   }
 
-  .thinking-timer {
-    display: none;
-    font-size: 1.3em;
-    font-weight: bold;
-    margin-top: 10px;
-  }
+
   </style>
 </head>
 
@@ -108,8 +103,22 @@
                       <%= image_tag @question.image, alt: "Question Image", class: "img-fluid" %> <%# imageカラムの内容を直接使用して画像を表示 %>
                     <% end %>
                   </div>
-                </div>
+                    <% if @question.level_id == 4 %>
+                      <div class="thinking-area">
 
+                        <div class="thinking-title">
+                          🧠 応用問題
+                        </div>
+
+                        <p class="thinking-message">
+                          問題文と選択肢をヒントに、じっくり考えてみましょう。<br>
+                          目安時間：30秒〜1分
+                        </p>
+
+                      </div>
+                    <% end %>
+                </div>
+                
                 <div class="choices card-body mt-3">
                   <div>
                     <p class="bg-info text-white">選択肢一覧</p>
@@ -123,39 +132,6 @@
                     </p>
                   <% end %>
 
-                  <% if @question.level_id == 4 %>
-
-                    <div class="thinking-area">
-
-                      <div class="thinking-title">
-                        🧠 応用問題です。じっくり考えてみましょう
-                      </div>
-
-                      <p class="thinking-message">
-                        問題文と選択肢をヒントに考えてみましょう。<br>
-                        目安時間：30秒〜1分
-                      </p>
-
-                      <button type="button"
-                              id="startThinkingButton"
-                              class="btn btn-sm btn-outline-primary">
-                        30秒タイマーを使う
-                      </button>
-
-                      <div id="thinkingTimer"
-                          class="thinking-timer">
-                        0:30
-                      </div>
-
-                      <p id="thinkingFinishedMessage"
-                        class="thinking-message mt-2"
-                        style="display:none;">
-                        30秒経過しました。自分の考えをもとに解答してみましょう。
-                      </p>
-
-                    </div>
-
-                  <% end %>
                   <div class="text-center">
                     <p>▼解答を選んでください▼</p>
                   </div>
@@ -261,57 +237,4 @@
           
           </div>
           
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  const startButton = document.getElementById("startThinkingButton");
-  const timerDisplay = document.getElementById("thinkingTimer");
-  const finishedMessage = document.getElementById("thinkingFinishedMessage");
-
-  if (!startButton) {
-    return;
-  }
-
-  let timerRunning = false;
-
-  startButton.addEventListener("click", function() {
-
-    if (timerRunning) {
-      return;
-    }
-
-    timerRunning = true;
-
-    // タイマーを押したときだけ表示する
-    timerDisplay.style.display = "block";
-    let remainingSeconds = 30;
-
-    startButton.disabled = true;
-    startButton.textContent = "考え中…";
-
-    const timer = setInterval(function() {
-
-      remainingSeconds--;
-
-      const seconds = String(remainingSeconds).padStart(2, "0");
-
-      timerDisplay.textContent = "0:" + seconds;
-
-      if (remainingSeconds <= 0) {
-
-        clearInterval(timer);
-
-        timerDisplay.textContent = "0:00";
-
-        startButton.style.display = "none";
-
-        finishedMessage.style.display = "block";
-      }
-
-    }, 1000);
-
-  });
-
-});
-</script>
 
