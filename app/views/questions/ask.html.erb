@@ -36,7 +36,31 @@
     font-size:0.8em;
     text-align:end;
   }
+  .thinking-area {
+    background-color: #f7fbff;
+    border: 1px solid #b8daff;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0 25px;
+    text-align: center;
+  }
 
+  .thinking-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+  }
+
+  .thinking-timer {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .thinking-message {
+    font-size: 0.85em;
+    color: #666;
+  }
   </style>
 </head>
 
@@ -91,9 +115,51 @@
                   </div>
                   <% @choices.each_with_index do |choice, index| %>
                     <p>
-                      <button type="button" style="border: 0.5 solid;"><%= ["ア", "イ", "ウ", "エ"][index] %></button> 
+                      <button type="button" style="border: 0.5 solid;">
+                        <%= ["ア", "イ", "ウ", "エ"][index] %>
+                      </button> 
                       <%= simple_format(choice.choice) %> <%# 修正点: simple_formatで改行を処理 %>
                     </p>
+                  <% end %>
+                  <% if @question.level_id == 4 %>
+
+                    <div class="thinking-area">
+
+                      <div class="thinking-title">
+                        🧠 シンキングタイム
+                      </div>
+
+                      <p class="thinking-message">
+                        問題文と選択肢を見ながら、
+                        少し時間をかけて考えてみましょう。<br>
+                        タイマーを使わず、そのまま解答してもOKです。
+                      </p>
+
+                      <div id="thinkingTimer"
+                          class="thinking-timer">
+                        0:30
+                      </div>
+
+                      <button type="button"
+                              id="startThinkingButton"
+                              class="btn btn-outline-primary">
+
+                        30秒考えてみる
+
+                      </button>
+
+                      <p id="thinkingFinishedMessage"
+                        class="thinking-message mt-2"
+                        style="display:none;">
+
+                        30秒経過しました。<br>
+                        問題文と選択肢をもう一度確認して、
+                        解答してみましょう。
+
+                      </p>
+
+                    </div>
+
                   <% end %>
                   <div class="text-center">
                     <p>▼解答を選んでください▼</p>
@@ -103,6 +169,7 @@
                       <%= button_to ["  ア  ", "  イ  ", "  ウ  ", "  エ  "][index], "/questions/result", {method: :post, params: {choice_id: choice.id, question_id: @question.id}, class: "btn btn-outline-secondary buttons", data: { "choice-id" => choice.id, "choice-name" => ["ア", "イ", "ウ", "エ"][index], "question-id" => @question.id}, "csrf-token" => form_authenticity_token } %>
                     <% end %>
                   </div>
+
                   <div class="text-center">
                     <div class="card rounded attention mb-4">
                       <p class="small card-text">「解答を見る」「次の問題」を選んだ場合、<br>「間違えた問題に再挑戦」で出題されません。</p>
@@ -199,5 +266,55 @@
           
           </div>
           
+<script>
+document.addEventListener("DOMContentLoaded", function() {
 
+  const startButton = document.getElementById("startThinkingButton");
+  const timerDisplay = document.getElementById("thinkingTimer");
+  const finishedMessage = document.getElementById("thinkingFinishedMessage");
+
+  if (!startButton) {
+    return;
+  }
+
+  let timerRunning = false;
+
+  startButton.addEventListener("click", function() {
+
+    if (timerRunning) {
+      return;
+    }
+
+    timerRunning = true;
+
+    let remainingSeconds = 30;
+
+    startButton.disabled = true;
+    startButton.textContent = "考え中…";
+
+    const timer = setInterval(function() {
+
+      remainingSeconds--;
+
+      const seconds = String(remainingSeconds).padStart(2, "0");
+
+      timerDisplay.textContent = "0:" + seconds;
+
+      if (remainingSeconds <= 0) {
+
+        clearInterval(timer);
+
+        timerDisplay.textContent = "0:00";
+
+        startButton.style.display = "none";
+
+        finishedMessage.style.display = "block";
+      }
+
+    }, 1000);
+
+  });
+
+});
+</script>
 
