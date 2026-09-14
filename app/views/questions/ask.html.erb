@@ -36,30 +36,31 @@
     font-size:0.8em;
     text-align:end;
   }
+  
+  /* 応用問題用：思考を促す補助エリア */
   .thinking-area {
     background-color: #f7fbff;
-    border: 1px solid #b8daff;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0 25px;
-    text-align: center;
+    border-left: 4px solid #17a2b8;
+    padding: 12px 15px;
+    margin: 15px 0 20px;
   }
 
   .thinking-title {
     font-weight: bold;
-    font-size: 1.1em;
-    margin-bottom: 8px;
-  }
-
-  .thinking-timer {
-    font-size: 1.6em;
-    font-weight: bold;
-    margin: 10px 0;
+    margin-bottom: 5px;
   }
 
   .thinking-message {
     font-size: 0.85em;
     color: #666;
+    margin-bottom: 10px;
+  }
+
+  .thinking-timer {
+    display: none;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 10px;
   }
   </style>
 </head>
@@ -121,41 +122,35 @@
                       <%= simple_format(choice.choice) %> <%# 修正点: simple_formatで改行を処理 %>
                     </p>
                   <% end %>
+
                   <% if @question.level_id == 4 %>
 
                     <div class="thinking-area">
 
                       <div class="thinking-title">
-                        🧠 シンキングタイム
+                        🧠 応用問題です。じっくり考えてみましょう
                       </div>
 
                       <p class="thinking-message">
-                        問題文と選択肢を見ながら、
-                        少し時間をかけて考えてみましょう。<br>
-                        タイマーを使わず、そのまま解答してもOKです。
+                        問題文と選択肢をヒントに考えてみましょう。<br>
+                        目安時間：30秒〜1分
                       </p>
+
+                      <button type="button"
+                              id="startThinkingButton"
+                              class="btn btn-sm btn-outline-primary">
+                        30秒タイマーを使う
+                      </button>
 
                       <div id="thinkingTimer"
                           class="thinking-timer">
                         0:30
                       </div>
 
-                      <button type="button"
-                              id="startThinkingButton"
-                              class="btn btn-outline-primary">
-
-                        30秒考えてみる
-
-                      </button>
-
                       <p id="thinkingFinishedMessage"
                         class="thinking-message mt-2"
                         style="display:none;">
-
-                        30秒経過しました。<br>
-                        問題文と選択肢をもう一度確認して、
-                        解答してみましょう。
-
+                        30秒経過しました。自分の考えをもとに解答してみましょう。
                       </p>
 
                     </div>
@@ -287,6 +282,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     timerRunning = true;
 
+    // タイマーを押したときだけ表示する
+    timerDisplay.style.display = "block";
     let remainingSeconds = 30;
 
     startButton.disabled = true;
