@@ -38,11 +38,15 @@
   }
   
   /* 応用問題用：思考を促す補助エリア */
+  /* シンキングタイム本体 */
   .thinking-area {
+    display: none;
+
     background-color: #f7fbff;
     border-left: 4px solid #17a2b8;
     padding: 12px 15px;
     margin: 15px 0 20px;
+    text-align: center;
   }
 
   .thinking-title {
@@ -53,9 +57,72 @@
   .thinking-message {
     font-size: 0.85em;
     color: #666;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
+  .thinking-timer {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  /* シンキングタイム確認モーダル */
+  .thinking-modal {
+    display: none;
+
+    position: fixed;
+    z-index: 10000;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.35);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+  }
+
+  .thinking-modal-content {
+    width: 100%;
+    max-width: 360px;
+
+    background-color: #ffffff;
+
+    border-radius: 10px;
+
+    padding: 24px 20px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .thinking-modal-title {
+    font-size: 1.2em;
+    font-weight: bold;
+
+    margin-bottom: 12px;
+  }
+
+  .thinking-modal-description {
+    font-size: 0.85em;
+    color: #666;
+  }
+
+  .thinking-modal-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 20px;
+  }
 
   </style>
 </head>
@@ -104,18 +171,23 @@
                     <% end %>
                   </div>
                     <% if @question.level_id == 4 %>
-                      <div class="thinking-area">
+
+                      <div id="thinkingArea" class="thinking-area">
 
                         <div class="thinking-title">
-                          🧠 応用問題
+                          🧠 シンキングタイム
                         </div>
 
                         <p class="thinking-message">
-                          問題文と選択肢をヒントに、じっくり考えてみましょう。<br>
-                          目安時間：30秒〜1分
+                          問題文と選択肢を見ながら、じっくり考えてみましょう。
                         </p>
 
+                        <div id="thinkingTimer" class="thinking-timer">
+                          0:30
+                        </div>
+
                       </div>
+
                     <% end %>
                 </div>
                 
@@ -236,5 +308,126 @@
             </div>
           
           </div>
-          
+          <% if @question.level_id == 4 %>
 
+            <div id="thinkingModal" class="thinking-modal">
+
+              <div class="thinking-modal-content">
+
+                <div class="thinking-modal-title">
+                  🧠 シンキングタイム
+                </div>
+
+                <p>
+                  少し時間をかけて考えてみますか？
+                </p>
+
+                <p class="thinking-modal-description">
+                  30秒間、問題文と選択肢を見ながら
+                  じっくり考えることができます。
+                </p>
+
+                <div class="thinking-modal-buttons">
+
+                  <button type="button"
+                          id="useThinkingButton"
+                          class="btn btn-primary">
+                    利用する
+                  </button>
+
+                  <button type="button"
+                          id="skipThinkingButton"
+                          class="btn btn-outline-secondary">
+                    使わない
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          <% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  const modal =
+    document.getElementById("thinkingModal");
+
+  const useButton =
+    document.getElementById("useThinkingButton");
+
+  const skipButton =
+    document.getElementById("skipThinkingButton");
+
+  const thinkingArea =
+    document.getElementById("thinkingArea");
+
+  const timerDisplay =
+    document.getElementById("thinkingTimer");
+
+
+  // 通常問題にはモーダル自体が存在しない
+  if (!modal) {
+    return;
+  }
+
+
+  // 8秒後にシンキングタイムを提案
+  setTimeout(function() {
+
+    modal.style.display = "flex";
+
+  }, 8000);
+
+
+  // 「利用する」
+  useButton.addEventListener("click", function() {
+
+    // モーダルを閉じる
+    modal.style.display = "none";
+
+    // シンキングタイム領域を表示
+    thinkingArea.style.display = "block";
+
+    // 30秒タイマー開始
+    let remainingSeconds = 30;
+
+    timerDisplay.textContent = "0:30";
+
+    const timer = setInterval(function() {
+
+      remainingSeconds--;
+
+      const seconds =
+        String(remainingSeconds).padStart(2, "0");
+
+      timerDisplay.textContent =
+        "0:" + seconds;
+
+
+      if (remainingSeconds <= 0) {
+
+        clearInterval(timer);
+
+        timerDisplay.textContent = "0:00";
+
+        // 次回ここでヒントを表示する
+
+      }
+
+    }, 1000);
+
+  });
+
+
+  // 「使わない」
+  skipButton.addEventListener("click", function() {
+
+    modal.style.display = "none";
+
+  });
+
+});
+</script>
