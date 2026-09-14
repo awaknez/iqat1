@@ -114,18 +114,22 @@
               <div id="logoArea">
                 <p>
                   <%= image_tag 'qandatraining230504.png', class: 'top-img' %>
-                  <%# 広告 %>
-                  <ins class="adsbygoogle"
-                      style="display:block"
-                      data-ad-format="fluid"
-                      data-ad-layout-key="-fb+5w+4e-db+86"
-                      data-ad-client="ca-pub-3940443246012720"
-                      data-ad-slot="5136118169"></ins>
-                  <script>
-                      (adsbygoogle = window.adsbygoogle || []).push({});
-                  </script>
                 </p>
               </div>
+              <!-- 広告① -->
+              <div class="ad-area">
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-format="fluid"
+                    data-ad-layout-key="-fb+5w+4e-db+86"
+                    data-ad-client="ca-pub-3940443246012720"
+                    data-ad-slot="5136118169"></ins>
+
+                <script>
+                  (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+              </div>
+
               <div class="card rounded mt-3 px-3 pb-3">
                 <div class="card-body" id="resultArea">
                   <div id="result" class="h4"></div>
@@ -168,25 +172,27 @@
                   </div>
                 </div>
               </div>
-            </div>
 
+            </div>
+            <!-- 広告② -->
+            <div class="ad-area ad-before-next">
+
+              <ins class="adsbygoogle"
+                  style="display:block"
+                  data-ad-format="fluid"
+                  data-ad-layout-key="-fb+5w+4e-db+86"
+                  data-ad-client="ca-pub-3940443246012720"
+                  data-ad-slot="5136118169"></ins>
+
+              <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+
+            </div>
 
             <div class="text-center mt-5">
                 <%= button_to "次の問題", "/questions/next_question", {method: :post, class: "nextQuestion btn btn-lg btn-secondary" }%>
                 
-                  <!-- 広告ここから -->
-                  <div class="my-4">
-                    <ins class="adsbygoogle"
-                        style="display:block"
-                        data-ad-format="fluid"
-                        data-ad-layout-key="-fb+5w+4e-db+86"
-                        data-ad-client="ca-pub-3940443246012720"
-                        data-ad-slot="5136118169"></ins>
-                    <script>
-                      (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                  </div>
-                  <!-- 広告ここまで -->
                 <p class="mt-4">------</p>
                 <p><%= link_to '問題選択へ戻る', root_path, method: :get %>
             </div>
