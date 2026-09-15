@@ -185,7 +185,12 @@
                         <div id="thinkingTimer" class="thinking-timer">
                           0:30
                         </div>
-
+                        <button type="button"
+                                id="retryThinkingButton"
+                                class="btn btn-sm btn-outline-primary mt-2"
+                                style="display: none;">
+                          もう一度考える（30秒）
+                        </button>
                       </div>
 
                     <% end %>
@@ -367,12 +372,49 @@ document.addEventListener("DOMContentLoaded", function() {
   const timerDisplay =
     document.getElementById("thinkingTimer");
 
+  const retryThinkingButton =
+    document.getElementById("retryThinkingButton");
 
   // 通常問題にはモーダル自体が存在しない
   if (!modal) {
     return;
   }
 
+  function startThinkingTimer() {
+    // 30秒タイマー開始
+    let remainingSeconds = 30;
+
+    timerDisplay.textContent = "0:30";
+
+    // カウント中は「もう一度考える」を隠す
+    retryThinkingButton.style.display = "none";
+    
+    const timer = setInterval(function() {
+
+      remainingSeconds--;
+
+      const seconds =
+        String(remainingSeconds).padStart(2, "0");
+
+      timerDisplay.textContent =
+        "0:" + seconds;
+
+
+      if (remainingSeconds <= 0) {
+
+        clearInterval(timer);
+
+        timerDisplay.textContent = "0:00";
+
+        // 30秒終了後に表示
+        retryThinkingButton.style.display = "inline-block";
+        
+        // 次回ここでヒントを表示する
+
+      }
+
+    }, 1000);
+  }
 
   // 8秒後にシンキングタイムを提案
   setTimeout(function() {
@@ -391,33 +433,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // シンキングタイム領域を表示
     thinkingArea.style.display = "block";
 
-    // 30秒タイマー開始
-    let remainingSeconds = 30;
-
-    timerDisplay.textContent = "0:30";
-
-    const timer = setInterval(function() {
-
-      remainingSeconds--;
-
-      const seconds =
-        String(remainingSeconds).padStart(2, "0");
-
-      timerDisplay.textContent =
-        "0:" + seconds;
-
-
-      if (remainingSeconds <= 0) {
-
-        clearInterval(timer);
-
-        timerDisplay.textContent = "0:00";
-
-        // 次回ここでヒントを表示する
-
-      }
-
-    }, 1000);
+    startThinkingTimer();
 
   });
 
@@ -426,6 +442,12 @@ document.addEventListener("DOMContentLoaded", function() {
   skipButton.addEventListener("click", function() {
 
     modal.style.display = "none";
+
+  });
+  
+  retryThinkingButton.addEventListener("click", function() {
+
+    startThinkingTimer();
 
   });
 
