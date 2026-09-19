@@ -1,154 +1,162 @@
-<div class="container my-4">
+<div class="col-sm-8 bg-light">
+    <div class="container my-4">
 
-  <div class="card rounded">
-    <div class="card-body">
+    <div class="card rounded">
+        <div class="card-body">
 
-      <h3 class="text-center mb-4">
-        🧠 解く前の注意
-      </h3>
+        <h3 class="text-center mb-4">
+            🧠 解く前の注意
+        </h3>
 
-      <!-- 今回の問題について -->
-      <div class="mb-4">
-
-        <h5 class="border-bottom pb-2">
-          【今回の問題について】
-        </h5>
-
-        <p class="mb-1">
-          問題数：
-          <strong>
-            全<%= @practice_question_count %>問
-          </strong>
-        </p>
-
-        <p>
-          目安時間：
-          <strong>
-            約<%= [(@practice_question_count * 0.8).ceil, 1].max %>分
-          </strong>
-        </p>
-
-      </div>
-
-
-      <%= form_with url: ask_questions_path,
-                    method: :post,
-                    local: true do |f| %>
-
-        <!-- シンキングタイム -->
+        <!-- 今回の問題について -->
         <div class="mb-4">
 
-          <h5 class="border-bottom pb-2">
-            【シンキングタイム】
-          </h5>
+            <h5 class="border-bottom pb-2">
+            【今回の問題について】
+            </h5>
 
-          <p>
-            応用問題では、じっくり考えるための
-            「シンキングタイム」を利用できます。
-          </p>
+            <p class="mb-1">
+            問題数：
+            <strong>
+                全<%= @practice_question_count %>問
+            </strong>
+            </p>
 
-          <div class="form-check mb-2">
-
-            <%= radio_button_tag(
-                  :thinking_time,
-                  'use',
-                  true,
-                  id: 'thinking_time_use',
-                  class: 'form-check-input'
-                ) %>
-
-            <%= label_tag(
-                  :thinking_time_use,
-                  '利用する',
-                  class: 'form-check-label'
-                ) %>
-
-          </div>
-
-          <div class="form-check mb-4">
-
-            <%= radio_button_tag(
-                  :thinking_time,
-                  'skip',
-                  false,
-                  id: 'thinking_time_skip',
-                  class: 'form-check-input'
-                ) %>
-
-            <%= label_tag(
-                  :thinking_time_skip,
-                  '利用しない',
-                  class: 'form-check-label'
-                ) %>
-
-          </div>
+            <p>
+            目安時間：
+            <strong>
+                約<%= [(@practice_question_count * 0.8).ceil, 1].max %>分
+            </strong>
+            </p>
 
         </div>
 
 
-        <!-- ヒント機能 -->
-        <%# <div class="mb-4">
+        <%= form_with url: ask_questions_path,
+                        method: :post,
+                        local: true do |f| %>
 
-          <h5 class="border-bottom pb-2">
-            【ヒント機能】
-          </h5>
+            <!-- シンキングタイム -->
+            <div class="mb-4">
 
-          <p>
-            シンキングタイムを利用すると、
-            30秒後にヒントを確認できます。
-          </p>
+            <h5 class="border-bottom pb-2">
+                【シンキングタイム】
+            </h5>
 
-        </div> %>
+            <p>
+                シンキングタイムを利用すると、問題表示後に
+                <strong>30秒間の追加の思考時間</strong>を利用できます。
+                30秒経過後には<strong>ヒント</strong>が表示されます。
+            </p>
+
+            <p class="small text-muted">
+                ※シンキングタイムを使うかどうかは、各問題で選択できます。<br>
+                ここでは、<strong>各問題でシンキングタイムを利用するか確認する機能</strong>のON・OFFを設定します。
+            </p>
+
+            <div class="form-check mb-2">
+
+                <%= radio_button_tag(
+                    :thinking_time,
+                    'use',
+                    true,
+                    id: 'thinking_time_use',
+                    class: 'form-check-input'
+                    ) %>
+
+                <%= label_tag(
+                    :thinking_time_use,
+                    '利用する',
+                    class: 'form-check-label'
+                    ) %>
+
+            </div>
+
+            <div class="form-check mb-4">
+
+                <%= radio_button_tag(
+                    :thinking_time,
+                    'skip',
+                    false,
+                    id: 'thinking_time_skip',
+                    class: 'form-check-input'
+                    ) %>
+
+                <%= label_tag(
+                    :thinking_time_skip,
+                    '利用しない',
+                    class: 'form-check-label'
+                    ) %>
+
+            </div>
+
+            </div>
 
 
-        <!-- 学習のコツ -->
-        <div class="mb-4">
+            <!-- ヒント機能 -->
+            <%# <div class="mb-4">
 
-          <h5 class="border-bottom pb-2">
-            【学習のコツ】
-          </h5>
+            <h5 class="border-bottom pb-2">
+                【ヒント機能】
+            </h5>
 
-          <p>
-            問題文だけでなく、
-            <strong>選択肢もヒント</strong>として
-            じっくり考えてみましょう。
-          </p>
+            <p>
+                シンキングタイムを利用すると、
+                30秒後にヒントを確認できます。
+            </p>
+
+            </div> %>
+
+
+            <!-- 学習のコツ -->
+            <div class="mb-4">
+
+            <h5 class="border-bottom pb-2">
+                【学習のコツ】
+            </h5>
+
+            <p>
+                問題文だけでなく、
+                <strong>選択肢もヒント</strong>として
+                じっくり考えてみましょう。
+            </p>
+
+            </div>
+
+            <%# 広告AdSense %>
+            <div class="my-4">
+
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-3940443246012720"
+                    data-ad-slot="5136118169"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true">
+                </ins>
+
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+            </div>
+            <%= hidden_field_tag :practice_start, 'true' %>
+
+            <%# 広告ここまで %>
+
+            <br>
+            <div class="text-center mt-4">
+
+            <%= f.submit(
+                    "問題を始める",
+                    class: "btn btn-primary btn-lg"
+                ) %>
+
+            </div>
+
+        <% end %>
 
         </div>
-
-        <%# 広告AdSense %>
-        <div class="my-4">
-
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-3940443246012720"
-                data-ad-slot="5136118169"
-                data-ad-format="auto"
-                data-full-width-responsive="true">
-            </ins>
-
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-
-        </div>
-        <%= hidden_field_tag :practice_start, 'true' %>
-
-        <%# 広告ここまで %>
-
-        <br>
-        <div class="text-center mt-4">
-
-          <%= f.submit(
-                "問題を始める",
-                class: "btn btn-primary btn-lg"
-              ) %>
-
-        </div>
-
-      <% end %>
+    </div>
 
     </div>
-  </div>
-
 </div>
