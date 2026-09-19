@@ -27,6 +27,52 @@ class QuestionsController < ApplicationController
 
   def ask
 			initialize_session
+
+      # 注意画面から「問題を始める」を押した場合
+        if params[:practice_start] == 'true'
+
+          # シンキングタイムを利用するか保存
+          session[:thinking_time_enabled] =
+            params[:thinking_time] == 'use'
+
+          # 最初に選択したジャンルなどを復元
+          original_params = session[:practice_params] || {}
+
+          original_params.each do |key, value|
+            params[key] = value unless ["controller", "action"].include?(key)
+          end
+
+          # 注意画面は表示済み
+          session[:practice_notice_seen] = true
+
+          # 一時保存した情報を削除
+          session.delete(:practice_params)
+        end
+
+
+        # 応用問題を初めて開始するときだけ注意画面を表示
+        if params[:mode] == 'practice' &&
+          !session[:practice_notice_seen]
+
+          # 選択したジャンルなどを一時保存
+          session[:practice_params] = params.to_unsafe_h
+
+          # 注意画面に表示する問題数を取得
+          genre_ids = Genre.select_genre(session, params)
+
+          @practice_question_count =
+            Question.where(
+              genre_id: genre_ids,
+              level_id: 4
+            ).count
+
+          render :before_practice
+          return
+        end
+
+
+      # ここから下は従来の処理
+
 			genre_ids = Genre.select_genre(session, params)
 			level_ids = Level.select_level(session, params)
 

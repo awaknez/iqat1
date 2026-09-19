@@ -313,7 +313,7 @@
             </div>
           
           </div>
-          <% if @question.level_id == 4 %>
+          <% if @question.level_id == 4 && session[:thinking_time_enabled] == true %>
 
             <div id="thinkingModal" class="thinking-modal">
 
