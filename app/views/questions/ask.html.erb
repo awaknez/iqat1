@@ -185,6 +185,21 @@
                         <div id="thinkingTimer" class="thinking-timer">
                           0:30
                         </div>
+
+                        <% if @question.hint.present? %>
+                          <div id="hintArea"
+                            class="alert alert-info mt-3"
+                            style="display: none;">
+
+                            <strong>💡 ヒント</strong>
+
+                            <p class="mb-0 mt-2">
+                              <%= @question.hint %>
+                            </p>
+
+                          </div>
+                        <% end %>
+
                         <button type="button"
                                 id="retryThinkingButton"
                                 class="btn btn-sm btn-outline-primary mt-2"
@@ -380,6 +395,9 @@ document.addEventListener("DOMContentLoaded", function() {
     return;
   }
 
+  const hintArea =
+  document.getElementById("hintArea");
+
   function startThinkingTimer() {
     // 30秒タイマー開始
     let remainingSeconds = 30;
@@ -405,12 +423,14 @@ document.addEventListener("DOMContentLoaded", function() {
         clearInterval(timer);
 
         timerDisplay.textContent = "0:00";
-
-        // 30秒終了後に表示
-        retryThinkingButton.style.display = "inline-block";
         
-        // 次回ここでヒントを表示する
+        // ヒントを表示
+        if (hintArea) {
+          hintArea.style.display = "block";
+        }
 
+        // 「もう一度考える」を表示
+        retryThinkingButton.style.display = "inline-block";
       }
 
     }, 1000);
