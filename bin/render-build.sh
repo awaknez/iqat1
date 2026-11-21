@@ -18,5 +18,5 @@ bundle _2.5.22_ install
 
 yarn install --frozen-lockfile
 
-bundle _2.5.22_ exec rake assets:precompile
-bundle _2.5.22_ exec rake assets:clean
+bundle exec rake assets:precompile
+bundle exec rake assets:clean
